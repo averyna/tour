@@ -1,0 +1,20 @@
+/* Style the central_part of index page*/
+
+.central {
+    float: left;
+    /*height: 50%;*/
+    margin: 0;
+    padding: 10px;
+}
+
+/* Style the content */
+.central.content {
+    display: inline-block;
+    /*background-color: #ddd;*/
+    /*width: 80%;*/
+    border:2px solid #111;
+    background-color: #f1f1f1;
+    /*background-image: url(../pictures/light1.jpg);*/*/
+    background-repeat: repeat;
+    padding: 2%;
+}

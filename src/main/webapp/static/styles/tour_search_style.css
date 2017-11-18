@@ -1,0 +1,63 @@
+/* Style the central_part of tour_search page*/
+
+.central {
+    float: left;
+    margin: 0;
+    padding: 10px;
+}
+/* Style the side navigation */
+.central.sideform {
+    width: 20%;
+    overflow-x: hidden;
+}
+
+.filter_form select, label{
+	width:100%;
+	position:relative;
+	/*left:0;*/
+	padding:4px;
+  margin-top:4px;
+  margin-bottom: 4px;
+}
+.filter_input{
+  /*display: block;*/
+  width:100%;
+  position:relative;
+  padding:4px;
+  margin-top:4px;
+  margin-bottom: 4px;
+}
+
+.central.content {
+    display: inline-block;
+    width: 80%;
+    /*background-image: url(../pictures/light1.jpg);*/*/
+    background-repeat: repeat;
+    padding: 2%;
+    overflow-x: auto;
+}
+
+/* Style the table */
+table {
+  font-size: calc(60% + 0.4vw);
+	width:100%;
+	margin:auto;
+	border: 1px solid black;
+	overflow:auto;
+	border-collapse: collapse;
+}
+th {
+    text-align: left;
+	vertical-align:middle;
+	padding:5px;
+	border-bottom: 1px solid black;
+}
+td {
+    text-align: left;
+	vertical-align:middle;
+	padding:5px;
+	border-bottom: 1px solid black;
+}
+tr:hover {
+	background-color: #f5f5f5
+}
