@@ -2,6 +2,7 @@ package edu.olya.tour.utils.cache;
 
 import edu.olya.tour.utils.context.WebContextHolder;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -19,10 +20,31 @@ public class CacheManager {
 
                     @Override
                     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                        try {
+                        try{
+                        Object behindProxy = originalReference;
+                        //можно без while, но если оберток несколько, то без цикла не обойтись
+                            while (Proxy.isProxyClass(behindProxy.getClass())) {
+                                try {
+                                    Object handler = Proxy.getInvocationHandler(originalReference);
+                                    Class handlerClass = handler.getClass();
+                                    Field objField = handlerClass.getDeclaredField("originalReference");
+                                    objField.setAccessible(true);
+                                    behindProxy = objField.get(handler);
+                                } catch (NoSuchFieldException e) {
+                                    e.printStackTrace();
+                                } catch (IllegalAccessException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                        Method m = behindProxy.getClass().getMethod(method.getName(), method.getParameterTypes());
+                        CacheConfig cacheConfig = m.getAnnotation(CacheConfig.class);
+
+
+
                             //Returns this element's annotation for the specified type if such an annotation is present, else null.
                             //interface edu.olya.tour.utils.cache.CacheConfig
-                            CacheConfig cacheConfig = method.getAnnotation(CacheConfig.class);
+//                            CacheConfig cacheConfig = method.getAnnotation(CacheConfig.class);
                             boolean cacheEnabled = cacheConfig != null;
 
                             Cache cache = null;
