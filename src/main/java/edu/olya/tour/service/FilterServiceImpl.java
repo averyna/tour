@@ -29,7 +29,9 @@ public class FilterServiceImpl implements FilterService {
         return countries;
     }
 
-    @CacheConfig()
+    @CacheConfig(params = {
+            @CacheParam(key = "expiration", value = "10000")
+    })
     public List<Country> getAllCountries() {
         return FilterDAO.Factory.getInstance().getAllCountries();
     }
@@ -41,6 +43,9 @@ public class FilterServiceImpl implements FilterService {
         return FilterDAO.Factory.getInstance().getAllTourTypes();
     }
 
+    @CacheConfig(params = {
+            @CacheParam(key = "expiration", value = "10000")
+    })
     public List<MealType> getAllMealTypes() {
         return FilterDAO.Factory.getInstance().getAllMealTypes();
     }

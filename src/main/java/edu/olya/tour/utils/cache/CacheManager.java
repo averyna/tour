@@ -1,5 +1,6 @@
 package edu.olya.tour.utils.cache;
 
+import edu.olya.tour.utils.cache.impl.ExpirationEntityCache;
 import edu.olya.tour.utils.context.WebContextHolder;
 
 import java.lang.reflect.Field;
@@ -20,9 +21,9 @@ public class CacheManager {
 
                     @Override
                     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                        try{
-                        Object behindProxy = originalReference;
-                        //можно без while, но если оберток несколько, то без цикла не обойтись
+                        try {
+                            Object behindProxy = originalReference;
+                            //можно без while, но если оберток несколько, то без цикла не обойтись
                             while (Proxy.isProxyClass(behindProxy.getClass())) {
                                 try {
                                     Object handler = Proxy.getInvocationHandler(originalReference);
@@ -37,9 +38,8 @@ public class CacheManager {
                                 }
                             }
 
-                        Method m = behindProxy.getClass().getMethod(method.getName(), method.getParameterTypes());
-                        CacheConfig cacheConfig = m.getAnnotation(CacheConfig.class);
-
+                            Method m = behindProxy.getClass().getMethod(method.getName(), method.getParameterTypes());
+                            CacheConfig cacheConfig = m.getAnnotation(CacheConfig.class);
 
 
                             //Returns this element's annotation for the specified type if such an annotation is present, else null.
@@ -53,10 +53,12 @@ public class CacheManager {
 
                             if (cacheEnabled) {
                                 StringBuilder keySb = new StringBuilder(method.getName());
-                                for (Object s : args) {
-                                    //toString вернет имя класса, сущностью которого является аргуметн и хэш-код аргумента
-                                    //по сути это "return getClass().getName() + "@" + Integer.toHexString(hashCode());"
-                                    keySb.append(s == null ? "null" : s.toString());
+                                if(args != null) {
+                                    for (Object s : args) {
+                                        //s.toString вернет имя класса, сущностью которого является аргуметн и хэш-код аргумента
+                                        //по сути это "return getClass().getName() + "@" + Integer.toHexString(hashCode());"
+                                        keySb.append(s == null ? "null" : s.toString());
+                                    }
                                 }
                                 key = keySb.toString();
                                 switch (cacheConfig.scope()) {
@@ -76,8 +78,7 @@ public class CacheManager {
                                         }
                                 }
 
-
-                                //получаем Object value(список стран) из  ExpirationValue fields: long expiredAt; Object value;
+                                //получаем Object value(список стран) из  "ExpirationValue" fields: long expiredAt; Object value;
                                 Object cachedValue = cache.get(key);
 
                                 if (cachedValue != null) {//может быть null, если ExpirationValue==null или now > value.expiredAt
@@ -88,6 +89,9 @@ public class CacheManager {
                             Object result = method.invoke(originalReference, args);
 
                             if (cache != null) {
+
+                                ((ExpirationEntityCache)cache).setExpirationTime(
+                                        Long.parseLong(cacheConfig.params()[0].value()));
                                 cache.put(key, result);
                             }
 

@@ -50,6 +50,9 @@ public class FilterDAOImpl implements FilterDAO {
         return countries;
     }
 
+
+
+
     public List<TourType> getAllTourTypes(){
         return new ArrayList<>();
     }

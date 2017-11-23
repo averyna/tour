@@ -6,9 +6,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ExpirationEntityCache implements Cache {
-    private long expirationTime = 10000;
+    //private long expirationTime = 10000;
+    private long expirationTime;
 
-    Map<String, ExpirationValue> cacheMap = new HashMap();
+    private Map<String, ExpirationValue> cacheMap = new HashMap();
+
+    public void setExpirationTime(long expirationTime) {
+        this.expirationTime = expirationTime;
+    }
 
     @Override
     public void put(String key, Object result) {
@@ -33,11 +38,16 @@ public class ExpirationEntityCache implements Cache {
         return (T) value.value;
     }
 
+    public Object getValue(String key){
+        return cacheMap.get(key).value;
+    }
+
     private static class ExpirationValue {
         private final long expiredAt;
-        private final Object value;
 
-        public ExpirationValue(long expirationTime, Object value) {
+        public Object value;
+
+        ExpirationValue(long expirationTime, Object value) {
             this.expiredAt = expirationTime;
             this.value = value;
         }

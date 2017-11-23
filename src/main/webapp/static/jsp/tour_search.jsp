@@ -3,6 +3,7 @@
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE>
 <html lang="en-us">
@@ -17,26 +18,28 @@
 
 <div class="central sideform">
 
+    <c:set var = "cache" scope = "page" value = "${applicationScope['edu.olya.tour.utils.cache.Cache']}"/>
+
     <form class="filter_form" action="/tour/tourSearch" method="get">
 
         <label for="country">Страна</label>
         <select id="country" name="country"  required>
             <option></option>
-            <% for (Map.Entry<Integer, String> param : ((Map<Integer, String>)(request.getAttribute("country"))).entrySet()) { %>
+            <c:forEach var="country" items="${cache.getValue('getAllCountries')}" >
                 <option >
-                    <%= param.getValue()%>
+                    <c:out value="${country['name']}"/>
                 </option>
-            <% } %>
+            </c:forEach>
         </select>
 
         <label for="tour_type">Тип тура</label>
         <select id="tour_type" name="tour_type"  required>
             <option></option>
-            <% for (Map.Entry<Integer, String> param : ((Map<Integer, String>)(request.getAttribute("tour_type"))).entrySet()) { %>
-                <option>
-                    <%= param.getValue()%>
+            <c:forEach var="type" items="${cache.getValue('getAllTourTypes')}" >
+                <option >
+                    ${type.name}
                 </option>
-            <% } %>
+            </c:forEach>
         </select>
 
 
@@ -57,11 +60,11 @@
         <label for="meal_type">Тип питания</label>
         <select id="meal_type" name="meal_type"  required>
             <option></option>
-           <% for (Map.Entry<Integer, String> param : ((Map<Integer, String>)(request.getAttribute("meal_type"))).entrySet()) { %>
-               <option>
-                   <%= param.getValue()%>
-               </option>
-           <% } %>
+            <c:forEach var="meal" items="${cache.getValue('getAllMealTypes')}" >
+                <option >
+                    ${meal.name}
+                </option>
+            </c:forEach>
         </select>
 
         <label for="price_from">Цена, BYN</label>
