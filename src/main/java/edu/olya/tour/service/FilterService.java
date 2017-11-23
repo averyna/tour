@@ -7,12 +7,9 @@ import edu.olya.tour.model.TourType;
 import edu.olya.tour.utils.cache.CacheManager;
 import edu.olya.tour.utils.database.TransactionManager;
 
-import javax.servlet.ServletContext;
 import java.util.List;
 
 public interface FilterService {
-//todo:удалить метод getAllCountries с параметрами (нужен для учебного примера)
-    List<Country> getAllCountries(ServletContext servletContext);
 
     List<Country> getAllCountries();
 

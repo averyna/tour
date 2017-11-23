@@ -22,26 +22,29 @@
        <b style="color: darkred;">Что-то пошло не так. <br/> Попробуйте ввести данные для удаления тура снова.<br/></b>
     </c:if>
 
-    <form class="filter_form" action="/tour/delTour" method="get">
-        <label for="country">Страна</label>
-                <select id="country" name="country"  required>
-                    <option></option>
-                    <% for (Map.Entry<Integer, String> param : ((Map<Integer, String>)(request.getAttribute("country"))).entrySet()) { %>
-                        <option >
-                            <%= param.getValue()%>
-                        </option>
-                    <% } %>
-                </select>
+    <c:set var = "cache" scope = "page" value = "${applicationScope['edu.olya.tour.utils.cache.Cache']}"/>
 
-                <label for="tour_type">Тип тура</label>
-                <select id="tour_type" name="tour_type"  required>
-                    <option></option>
-                    <% for (Map.Entry<Integer, String> param : ((Map<Integer, String>)(request.getAttribute("tour_type"))).entrySet()) { %>
-                        <option>
-                            <%= param.getValue()%>
+    <form class="filter_form" action="/tour/delTour" method="get">
+
+        <label for="country">Страна</label>
+            <select id="country" name="country">
+                <option></option>
+                    <c:forEach var="country" items="${cache.getValue('getAllCountries')}" >
+                        <option >
+                            <c:out value="${country['name']}"/>
                         </option>
-                    <% } %>
-                </select>
+                    </c:forEach>
+            </select>
+
+        <label for="tour_type">Тип тура</label>
+            <select id="tour_type" name="tour_type">
+                <option></option>
+                    <c:forEach var="type" items="${cache.getValue('getAllTourTypes')}" >
+                        <option >
+                            ${type.name}
+                        </option>
+                    </c:forEach>
+            </select>
 
         <label for="start_date">Дата начала тура</label>
         <input class="filter_input" type="date" id="start_date" name="start_date"/>
@@ -58,21 +61,21 @@
         <label for="hotel">Отель</label>
         <select id="hotel" name="hotel">
             <option></option>
-            <% for (Map.Entry<Integer, String> param : ((Map<Integer, String>)(request.getAttribute("hotel"))).entrySet()) { %>
-              <option>
-                  <%= param.getValue()%>
-              </option>
-            <% } %>
+                <c:forEach var="hotel" items="${cache.getValue('getAllHotels')}" >
+                    <option>
+                        ${hotel.name}
+                    </option>
+                </c:forEach>
         </select>
 
        <label for="meal_type">Тип питания</label>
-               <select id="meal_type" name="meal_type"  required>
+               <select id="meal_type" name="meal_type">
                    <option></option>
-                  <% for (Map.Entry<Integer, String> param : ((Map<Integer, String>)(request.getAttribute("meal_type"))).entrySet()) { %>
-                      <option>
-                          <%= param.getValue()%>
-                      </option>
-                  <% } %>
+                        <c:forEach var="meal" items="${cache.getValue('getAllMealTypes')}" >
+                            <option value="${meal['id']}">
+                                ${meal.name}
+                            </option>
+                        </c:forEach>
                </select>
 
         <label for="price">Цена, BYN</label>

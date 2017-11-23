@@ -1,8 +1,8 @@
 package edu.olya.tour.controller;
 
 import edu.olya.tour.model.TourView;
+import edu.olya.tour.service.FilterService;
 import edu.olya.tour.service.TourService;
-import edu.olya.tour.utils.database.ConnectionManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,10 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +34,6 @@ public class DelTourController extends HttpServlet {
             }
             request.setAttribute("deleted", qty);
         } else {
-
             Map<String, Object> searchParameters = new HashMap<>();
 
             for (Map.Entry<String, String[]> param : request.getParameterMap().entrySet()) {
@@ -49,77 +44,20 @@ public class DelTourController extends HttpServlet {
             request.setAttribute("tours", tours);
         }
 
-        populateSearchForm(request);
+        populateSearchForm();
         request.setAttribute("page", "del_tour.jsp");
         request.getRequestDispatcher(LAYOUT_PAGE).forward(request, response);
     }
 
-    private void populateSearchForm(HttpServletRequest request) {
-        getValuesFromDB(request, "country", "SELECT DISTINCT id, country FROM countries;");
-        getValuesFromDB(request, "tour_type", "SELECT DISTINCT id, tour_type FROM tour_types;");
-        getValuesFromDB(request, "meal_type", "SELECT DISTINCT id, meal_type FROM meal_types;");
-        getValuesFromDB(request, "hotel", "SELECT DISTINCT id, hotel FROM hotels;");
-    }
-
-    private void getValuesFromDB(HttpServletRequest request, String attributeName, String sql) {
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        Connection connection = null;
-        Map<Integer, String> result = new HashMap<>();
-        try {
-            connection = ConnectionManager.getConnection();
-            ps = connection.prepareStatement(sql);
-            rs = ps.executeQuery();
-
-            while (rs.next()) {
-                result.put(rs.getInt(1), rs.getString(2));
-            }
-            request.setAttribute(attributeName, result);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (ps != null) {
-                try {
-                    ps.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (connection != null) {
-
-                ConnectionManager.closeConnection(connection);// connection.close();
-
-            }
-        }
+    private void populateSearchForm() {
+        FilterService filterService = FilterService.Factory.getInstance();
+        filterService.getAllCountries();
+        filterService.getAllTourTypes();
+        filterService.getAllMealTypes();
+        filterService.getAllHotels();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request,response);
     }
 }
-
-
-//    TourService tourService = TourService.Factory.getInstance();
-//
-//    Map<String, Object> searchParameters = new HashMap<>();
-//
-//        for (Map.Entry<String, String[]> param : request.getParameterMap().entrySet()) {
-//        searchParameters.put(param.getKey(), param.getValue());
-//        }
-//
-//        //т.к. tourService - это прокси, searchTours будет вызываться не на прямую, а через invoke
-//        List<TourView> tours = tourService.searchTours(searchParameters);
-//
-//        populateSearchForm(request);
-//
-//        request.setAttribute("tours", tours);
-//        request.setAttribute("page", "del_tour.jsp");
-//        request.getRequestDispatcher(LAYOUT_PAGE).forward(request, response);

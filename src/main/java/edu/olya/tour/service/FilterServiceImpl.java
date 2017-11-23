@@ -14,21 +14,6 @@ import java.util.List;
 
 public class FilterServiceImpl implements FilterService {
 
-    //todo:удалить метод getAllCountries с параметрами (нужен для учебного примера)
-    @Override
-    public List<Country> getAllCountries(ServletContext servletContext) {
-        long now = System.currentTimeMillis();
-        Long expirationTime = (Long) servletContext.getAttribute("countriesExpirationTime");
-        List<Country> countries = (List<Country>) servletContext.getAttribute("countries");
-        if (expirationTime == null || now > expirationTime || countries == null) {
-            countries = FilterDAO.Factory.getInstance().getAllCountries();
-            long timeToLive = now + 10;
-            servletContext.setAttribute("countries", countries);
-            servletContext.setAttribute("countriesExpirationTime", timeToLive);
-        }
-        return countries;
-    }
-
     @CacheConfig(params = {
             @CacheParam(key = "expiration", value = "10000")
     })

@@ -39,16 +39,10 @@ public class TourSearchController extends HttpServlet {
     }
 
     private void populateSearchForm() {
-
         FilterService filterService = FilterService.Factory.getInstance();
         filterService.getAllCountries();
         filterService.getAllTourTypes();
         filterService.getAllMealTypes();
         filterService.getAllHotels();
-
-        //todo: there is no input field in tour_search.jsp to choose hotel
-        //getValuesFromDB(request, "hotel", "SELECT DISTINCT id, hotel FROM hotels;");
     }
-
-
 }
