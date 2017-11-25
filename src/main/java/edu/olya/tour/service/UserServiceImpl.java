@@ -8,19 +8,19 @@ import java.util.List;
 
 public class UserServiceImpl implements UserService{
 
-    public List<User> getUsers()throws ClassNotFoundException, SQLException{
+    public List<User> getUsers(){
         return UserDao.Factory.getInstance().getUsers();
     }
-    public User getUser(String u_name) throws ClassNotFoundException, SQLException{
+    public User getUser(String u_name) {
         return UserDao.Factory.getInstance().getUser(u_name);
     }
-    public void deleteUser(String u_name)throws ClassNotFoundException, SQLException{
-        UserDao.Factory.getInstance().deleteUser(u_name);
+    public int deleteUser(long id){
+        return UserDao.Factory.getInstance().deleteUser(id);
     }
-    public void addUser(String u_name, String u_password)throws ClassNotFoundException, SQLException{
-        UserDao.Factory.getInstance().addUser(u_name, u_password);
+    public int insertUser(String u_name, String u_password) {
+        return UserDao.Factory.getInstance().insertUser(u_name, u_password);
     }
-    public boolean existsUser(String u_name)throws ClassNotFoundException, SQLException{
+    public boolean existsUser(String u_name){
         return UserDao.Factory.getInstance().existsUser(u_name);
     }
     public boolean verifiedUser(String u_name, String u_password)throws ClassNotFoundException, SQLException{

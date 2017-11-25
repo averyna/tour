@@ -34,11 +34,12 @@
 				</div>
 				<c:choose>
 				<c:when test="${!sessionScope.user_verified}">
-					<p><a class = "register" href="static/registration.jsp"><em>Регистрация</em></a>
-					<a href="static/user_enter.jsp" class = "register"><em>Вход</em></a></p>
+					<p><a class = "register" href="/tour/view?page=registration.jsp"><em>Регистрация</em></a>
+					<a href="/tour/view?page=user_enter.jsp" class = "register"><em>Вход</em></a></p>
 				</c:when>
 				<c:when test="${sessionScope.user_verified}">
-					<p class="register"  style="color: #008CBA"> Вы вошли как  <b> <c:out value="${sessionScope.user_verified_name}" /> </b></p>
+					<p class="register"  style="color: #008CBA"> Вы вошли как
+					    <b> <c:out value="${sessionScope.user_verified_name}" /> </b></p>
 				</c:when>
 				</c:choose>
 			</div>

@@ -7,15 +7,15 @@ import java.util.List;
 //Data Access Object Interface defines the standard operations on a model object
 public interface UserDao {
 
-    List<User> getUsers()throws ClassNotFoundException, SQLException;
+    List<User> getUsers();
 
-    User getUser(String u_name) throws ClassNotFoundException, SQLException;
+    User getUser(String u_name);
 
-    void deleteUser(String u_name)throws ClassNotFoundException, SQLException;
+    int deleteUser(long id);
 
-    void addUser(String u_name, String u_password)throws ClassNotFoundException, SQLException;
+    int insertUser(String u_name, String u_password);
 
-    boolean existsUser(String u_name)throws ClassNotFoundException, SQLException;
+    boolean existsUser(String u_name);
 
     boolean verifiedUser(String u_name, String u_password)throws ClassNotFoundException, SQLException;
 

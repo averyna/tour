@@ -4,18 +4,16 @@ import edu.olya.tour.model.Country;
 import edu.olya.tour.model.Hotel;
 import edu.olya.tour.model.MealType;
 import edu.olya.tour.model.TourType;
-import edu.olya.tour.utils.database.ConnectionHolder;
+import edu.olya.tour.utils.database.AbstractDAO;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Data Access Object class implements CountryDao interface
  */
-public class FilterDAOImpl implements FilterDAO {
+public class FilterDAOImpl extends AbstractDAO implements FilterDAO {
 
     @Override
     public List<Country> getAllCountries() {
@@ -51,38 +49,6 @@ public class FilterDAOImpl implements FilterDAO {
                 return new Hotel(rs.getInt(1), rs.getString(2));
             }
         });
-    }
-
-    private <T> List<T> executeQuery(String sql, RowCreator<T> rowCreator){
-        List<T> values = new ArrayList<>();
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try {
-            ps = ConnectionHolder.getConnection()
-                    .prepareStatement(sql);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                values.add(rowCreator.buildRow(rs));
-            }
-        }catch (SQLException e){
-            e.printStackTrace();
-        } finally {
-        if (rs != null) {
-            try {
-                rs.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        if (ps != null) {
-            try {
-                ps.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-        return values;
     }
 }
 

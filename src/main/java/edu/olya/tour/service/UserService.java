@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface UserService {
 
-    List<User> getUsers()throws ClassNotFoundException, SQLException;
-    User getUser(String u_name) throws ClassNotFoundException, SQLException;
-    void deleteUser(String u_name)throws ClassNotFoundException, SQLException;
-    void addUser(String u_name, String u_password)throws ClassNotFoundException, SQLException;
-    boolean existsUser(String u_name)throws ClassNotFoundException, SQLException;
+    List<User> getUsers();
+    User getUser(String u_name);
+    int deleteUser(long id);
+    int insertUser(String u_name, String u_password);
+    boolean existsUser(String u_name);
     boolean verifiedUser(String u_name, String u_password)throws ClassNotFoundException, SQLException;
 
     public static class Factory {

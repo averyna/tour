@@ -34,7 +34,7 @@ public class DelTourController extends HttpServlet {
             }
             request.setAttribute("deleted", qty);
         } else {
-            Map<String, Object> searchParameters = new HashMap<>();
+            Map<String, String[]> searchParameters = new HashMap<>();
 
             for (Map.Entry<String, String[]> param : request.getParameterMap().entrySet()) {
                 searchParameters.put(param.getKey(), param.getValue());

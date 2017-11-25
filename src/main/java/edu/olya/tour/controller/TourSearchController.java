@@ -10,9 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class TourSearchController extends HttpServlet {
     private static final String LAYOUT_PAGE = "/static/jsp/layout.jsp";
@@ -22,14 +20,7 @@ public class TourSearchController extends HttpServlet {
         //в следующей строке в tourService возвращается proxy, приведенный к типу TourServiceImpl
         TourService tourService = TourService.Factory.getInstance();
 
-        Map<String, Object> searchParameters = new HashMap<>();
-
-        for (Map.Entry<String, String[]> param : request.getParameterMap().entrySet()) {
-            searchParameters.put(param.getKey(), param.getValue());
-        }
-
-        //т.к. tourService - это прокси, searchTours будет вызываться не на прямую, а через invoke
-        List<TourView> tours = tourService.searchTours(searchParameters);
+        List<TourView> tours = tourService.searchTours(request.getParameterMap());
 
         populateSearchForm();
 

@@ -14,17 +14,17 @@ public class TourServiceImpl implements TourService {
     @CacheConfig(params = {
             @CacheParam(key = "expiration", value = "10000")
     })
-    public List<TourView> searchTours(Map<String, Object> searchParameters) {
+    public List<TourView> searchTours(Map<String, String[]> searchParameters) {
         return TourDAO.Factory.getInstance().searchTours(searchParameters);
     }
 
     @Override
-    public void insertTour(Tour tour) {
-        TourDAO.Factory.getInstance().insertTour(tour);
+    public int insertTour(Tour tour) {
+        return TourDAO.Factory.getInstance().insertTour(tour);
     }
 
     @Override
-    public long deleteTour(long tourId) {
+    public int deleteTour(long tourId) {
         return TourDAO.Factory.getInstance().deleteTour(tourId);
     }
 }

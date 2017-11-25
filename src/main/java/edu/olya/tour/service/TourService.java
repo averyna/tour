@@ -10,11 +10,11 @@ import java.util.Map;
 
 public interface TourService {
     //@CacheConfig()
-    List<TourView> searchTours(Map<String, Object> searchParameters);
+    List<TourView> searchTours(Map<String, String[]> searchParameters);
 
-    void insertTour(Tour tour);
+    int insertTour(Tour tour);
 
-    long deleteTour(long tourId);
+    int deleteTour(long tourId);
 
     public static class Factory {
         private static TourService instance;
