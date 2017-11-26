@@ -18,26 +18,21 @@
             <th>Тип питания</th>
             <th>Цена</th>
         </tr>
-        <%
-            for (Object o : tours) {
-                TourView t = (TourView) o;
-        %>
-        <tr>
-            <td><input type="checkbox" name="id" value = <%=t.getId()%> /></td>
-            <td><%=t.getCountry()%></td>
-            <td><%=t.getTourType()%></td>
-            <td><%=t.getStartDate()%></td>
-            <td><%=t.getAdults()%></td>
-            <td><%=t.getChildren()%></td>
-            <td><%=t.getNights()%></td>
-            <td><%=t.getHotel()%></td>
-            <td><%=t.getMealType()%></td>
-            <td><%=t.getPrice()%></td>
-        </tr>
-        <%
-            }
-        %></table>
+        <c:forEach var="tour" items="${tours}" >
+          <tr>
+              <td><input type="checkbox" name="id" value = "${tour['id']}" /></td>
+              <td><c:out value="${tour['country']}" /></td>
+              <td><c:out value="${tour['tourType']}" /></td>
+              <td><c:out value="${tour['startDate']}" /></td>
+              <td><c:out value="${tour['adults']}" /></td>
+              <td><c:out value="${tour['children']}" /></td>
+              <td><c:out value="${tour['nights']}" /></td>
+              <td><c:out value="${tour['hotel']}" /></td>
+              <td><c:out value="${tour['mealType']}" /></td>
+              <td><c:out value="${tour['price']}" /></td>
+          </tr>
+        </c:forEach>
+      </table>
 
-    <input class="tag_submit_button" type="submit" name="submit_button" value="Удалить"
-    style="display:block; width:10%; position:relative; margin:auto;"/>
+    <input class="tag_submit_button" type="submit" name="submit_button" value="Удалить"/>
 </form>

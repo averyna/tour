@@ -1,4 +1,3 @@
-<%@ page import="java.sql.*" %>
 <%@ page import="java.util.*" %>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
@@ -9,10 +8,10 @@
 <html lang="en-us">
 <head>
     <title>Поиск туров</title>
-	<meta charset="UTF-8">
-	<meta name="description" content="Поиск туров">
+  	<meta charset="UTF-8">
+  	<meta name="description" content="Поиск туров">
     <meta name="keywords" content="поиск туров, отдых, билеты">
-	<link rel="stylesheet" href="static/styles/tour_search_style.css">
+    <link rel="stylesheet" href="static/styles/tour_search_style.css">
 </head>
 <body>
 
@@ -23,7 +22,7 @@
     <form class="filter_form" action="/tour/tourSearch" method="get">
 
         <label for="country">Страна</label>
-        <select id="country" name="country"  required>
+        <select id="country" name="country" required>
             <option></option>
             <c:forEach var="country" items="${cache.getValue('getAllCountries')}" >
                 <option >
@@ -32,8 +31,8 @@
             </c:forEach>
         </select>
 
-        <label for="tour_type">Тип тура</label>
-        <select id="tour_type" name="tour_type"  required>
+        <label for="tourType">Тип тура</label>
+        <select id="tourType" name="tourType"  required>
             <option></option>
             <c:forEach var="type" items="${cache.getValue('getAllTourTypes')}" >
                 <option >
@@ -45,8 +44,8 @@
 
         <jsp:useBean id="now" class="java.util.Date"/>
         <fmt:formatDate var="now" type="date" value="${now}" pattern="yyyy-MM-dd"/>
-        <label for="start_date">Дата начала тура</label>
-        <input class="filter_input" type="date" id="start_date" name="start_date" value="${now}" min = "${now}" required/>
+        <label for="startDate">Дата начала тура</label>
+        <input class="filter_input" type="date" id="startDate" name="startDate" value="${now}" min = "${now}" required/>
 
         <label for="adults">Количество взрослых</label>
         <input class="filter_input" type="number" name="adults" id="adults" min="1" value="2" required/>
@@ -57,8 +56,8 @@
         <label for="nights">Количество ночей</label>
         <input class="filter_input" type="number" name="nights" id="nights" min="2" value="7"/>
 
-        <label for="meal_type">Тип питания</label>
-        <select id="meal_type" name="meal_type"  required>
+        <label for="mealType">Тип питания</label>
+        <select id="mealType" name="mealType"  required>
             <option></option>
             <c:forEach var="meal" items="${cache.getValue('getAllMealTypes')}" >
                 <option >
@@ -67,9 +66,9 @@
             </c:forEach>
         </select>
 
-        <label for="price_from">Цена, BYN</label>
-        <input class="filter_input" type="number" step="any" name="price_from" id="price_from" min="0" placeholder="От"/>
-        <input class="filter_input" type="number" step="any" name="price_to"  min="0" placeholder="До"/>
+        <label for="priceFrom">Цена, BYN</label>
+        <input class="filter_input" type="number" step="any" name="priceFrom" id="priceFrom" min="0" placeholder="От"/>
+        <input class="filter_input" type="number" step="any" name="priceTo"  min="0" placeholder="До"/>
 
         <input class="filter_input" type="submit" name="submit_button" value="Поиск"/>
 

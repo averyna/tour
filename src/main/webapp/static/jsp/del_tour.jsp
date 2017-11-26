@@ -36,8 +36,8 @@
                     </c:forEach>
             </select>
 
-        <label for="tour_type">Тип тура</label>
-            <select id="tour_type" name="tour_type">
+        <label for="tourType">Тип тура</label>
+            <select id="tourType" name="tourType">
                 <option></option>
                     <c:forEach var="type" items="${cache.getValue('getAllTourTypes')}" >
                         <option >
@@ -46,8 +46,8 @@
                     </c:forEach>
             </select>
 
-        <label for="start_date">Дата начала тура</label>
-        <input class="filter_input" type="date" id="start_date" name="start_date"/>
+        <label for="startDate">Дата начала тура</label>
+        <input class="filter_input" type="date" id="startDate" name="startDate"/>
 
         <label for="adults">Количество взрослых</label>
         <input class="filter_input" type="number" name="adults" id="adults" min="0"  />
@@ -68,8 +68,8 @@
                 </c:forEach>
         </select>
 
-       <label for="meal_type">Тип питания</label>
-               <select id="meal_type" name="meal_type">
+       <label for="mealType">Тип питания</label>
+               <select id="mealType" name="mealType">
                    <option></option>
                         <c:forEach var="meal" items="${cache.getValue('getAllMealTypes')}" >
                             <option value="${meal['id']}">

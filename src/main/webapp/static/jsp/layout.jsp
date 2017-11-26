@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
+
 <!DOCTYPE>
 <html lang="en-us">
 <head>
@@ -51,7 +52,7 @@
 				<li><a href="/tour/tourSearch">Подбор тура</a></li>
 			  <li><a href="/tour/tourSearch">Горящие туры</a></li>
 			  <li><a href="/tour/view?page=contacts.jsp">Контакты</a></li>
-			  <li><a href="/tour/view?page=feedbacks.jsp">Отзывы</a></li>
+			  <li><a href="/tour/comment">Отзывы</a></li>
 			  <li><a href="/tour/addTour">Добавить тур</a></li>
 			  <li><a href="/tour/delTour">Удалить тур</a></li>
 			</ul>
@@ -92,7 +93,6 @@
 				<div class= "footer_box">
 					<h4 >Мы в социальных сетях</h4>
 					<ul class="social">
-					<!--вместо надписей должны быть картинки-->
 						<li><a href = "http://twitter.com" title="Twitter">
 							<img src="static/icons/black-twitter-24.ico"></a></li>
 						<li><a href="http://google.com" title="Google">

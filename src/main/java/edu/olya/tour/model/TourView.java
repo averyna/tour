@@ -28,7 +28,9 @@ public class TourView {
     }
 
 
-    public TourView(int id, String country, String tourType, Date startDate, int adults, int children, int nights, String hotel, String mealType, BigDecimal price) {
+    public TourView(int id, String country, String tourType,
+                    Date startDate, int adults, int children,
+                    int nights, String hotel, String mealType, BigDecimal price) {
         this.id = id;
         this.country = country;
         this.tourType = tourType;

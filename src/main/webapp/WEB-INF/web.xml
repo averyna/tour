@@ -48,6 +48,16 @@
         <url-pattern>/tourSearch</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>commentController</servlet-name>
+        <servlet-class>edu.olya.tour.controller.CommentController</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>commentController</servlet-name>
+        <url-pattern>/comment</url-pattern>
+    </servlet-mapping>
+
 
     <!-- Servlet-Exception Handling -->
     <!-- servlet definition -->
