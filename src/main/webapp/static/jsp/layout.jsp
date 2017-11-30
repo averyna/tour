@@ -2,8 +2,10 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 
 <!DOCTYPE>
-<html lang="en-us">
+<html lang="ru-ru">
 <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta charset="UTF-8">
 	<meta charset="UTF-8">
 	<meta name="description" content="Турагентство "Сусанин Тур". Отдых, курорты, билеты. ">
 	<meta name="keywords" content="отдых, туры, путевки">

@@ -8,6 +8,19 @@
         <listener-class>edu.olya.tour.utils.context.WebContextListener</listener-class>
     </listener>
 
+    <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>edu.olya.tour.utils.context.RequestEncodingFilter</filter-class>
+        <init-param>
+            <param-name>requestContentEncoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>pageController</servlet-name>
         <servlet-class>edu.olya.tour.controller.PageController</servlet-class>
