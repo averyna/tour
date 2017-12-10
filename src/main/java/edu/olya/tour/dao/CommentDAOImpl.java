@@ -13,14 +13,15 @@ public class CommentDAOImpl extends AbstractDAO implements CommentDAO {
     @Override
     public List<Comment> getAllComments() {
         return executeQuery(
-                "SELECT author, date, comment from comments ORDER BY date;",
+                "SELECT id, author, date, comment from comments ORDER BY date;",
                 new RowCreator<Comment>() {
                     @Override
                     public Comment buildRow(ResultSet rs) throws SQLException {
-                        String author = rs.getString(1);
-                        Date date = rs.getDate(2);
-                        String comment = rs.getString(3);
-                        return new Comment(author, date, comment);
+                        long id = rs.getLong(1);
+                        String author = rs.getString(2);
+                        Date date = rs.getDate(3);
+                        String comment = rs.getString(4);
+                        return new Comment(id, author, date, comment);
                     }
                 }
         );

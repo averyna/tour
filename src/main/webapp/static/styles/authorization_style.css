@@ -1,0 +1,25 @@
+.authorization{
+    width:40%;
+    margin: 10% auto;
+    border:2px solid #111;
+    position: relative;
+    text-align: center;
+    background-color: #ccc;
+}
+
+.authorization_form{
+    margin: 1%;
+}
+
+.authorization_input {
+    display: block;
+    width:98%;
+    /*position:relative;*/
+    padding:1%;
+    margin:1%;
+}
+.authorization_submit{
+    display: block;
+    width: 30%;
+    margin: auto;
+}

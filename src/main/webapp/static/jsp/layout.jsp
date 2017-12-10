@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 
 <!DOCTYPE>
 <html lang="ru-ru">
@@ -7,7 +8,7 @@
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <meta charset="UTF-8">
 	<meta charset="UTF-8">
-	<meta name="description" content="Турагентство "Сусанин Тур". Отдых, курорты, билеты. ">
+	<meta name="description" content="Турагентство Сусанин Тур. Отдых, курорты, билеты. ">
 	<meta name="keywords" content="отдых, туры, путевки">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="shortcut icon" href="static/icons/right-footprint.ico" type="image/x-icon">
@@ -29,34 +30,32 @@
 			<div class="header_box" id="right">
 				<button onclick="callButtonClick()">Заказать звонок менеджера</button>
 				<div id="panel">
-					<form action="" onsubmit="callSubmitButtonClick()" method="post">
-						<input type="text" name="firstname" placeholder="Введите Ваше имя..">
-						<input type="text" name="phone" placeholder="Введите номер телефона ..">
-						<input type="submit" value="Позвоните мне!">
+					<form> <!-- onblur="hide()"-->
+						<input type="text" name="firstname" id="firstname" placeholder="Введите Ваше имя.." pattern="^[A-Za-z]+$" required>
+						<input type="text" name="phone" id="phone" placeholder="Введите номер телефона .." required>
+						<input type="submit" value="Позвоните мне!" onclick="return callSubmitButtonClick(this.form)">
 				  </form>
 				</div>
-				<c:choose>
-				<c:when test="${!sessionScope.user_verified}">
-					<p><a class = "register" href="/tour/view?page=registration.jsp"><em>Регистрация</em></a>
-					<a href="/tour/view?page=user_enter.jsp" class = "register"><em>Вход</em></a></p>
-				</c:when>
-				<c:when test="${sessionScope.user_verified}">
-					<p class="register"  style="color: #008CBA"> Вы вошли как
-					    <b> <c:out value="${sessionScope.user_verified_name}" /> </b></p>
-				</c:when>
-				</c:choose>
+                <c:set var="user" value="${sessionScope['edu.olya.tour.model.User']}"/>
+                <c:if test="${user != null}">
+                    <h4> Вы вошли как <i style="color: darkred;"> <c:out value="${user.name}"/> </i></h4>
+                </c:if>
 			</div>
 		</div>
 
 		<div class="topnav">
 			<ul>
-				<li><a href="/tour/view?page=index.jsp">Главная</a></li>
-				<li><a href="/tour/tourSearch">Подбор тура</a></li>
-			  <li><a href="/tour/tourSearch">Горящие туры</a></li>
-			  <li><a href="/tour/view?page=contacts.jsp">Контакты</a></li>
-			  <li><a href="/tour/comment">Отзывы</a></li>
-			  <li><a href="/tour/addTour">Добавить тур</a></li>
-			  <li><a href="/tour/delTour">Удалить тур</a></li>
+                <li><a href="/tour/view?page=index.jsp">Главная</a></li>
+                <li><a href="/tour/tourSearch">Подбор тура</a></li>
+                <li><a href="/tour/tourSearch">Горящие туры</a></li>
+                <li><a href="/tour/view?page=contacts.jsp">Контакты</a></li>
+                <li><a href="/tour/comment">Отзывы</a></li>
+                    <my:securedContent tagRole="admin">
+                        <jsp:body>
+                            <li><a href="/tour/addTour">Добавить тур</a></li>
+                            <li><a href="/tour/delTour">Удалить тур</a></li>
+                        </jsp:body>
+                    </my:securedContent>
 			</ul>
 		</div>
 
@@ -73,7 +72,7 @@
 				<button onclick="mailingClick()">Подписаться на рассылку</button>
 					<div id="mailingPanel">
 							<form class="mailing_form" action="" onsubmit="mailSubmitButtonClick()" method="post">
-							<input type="text" placeholder="Введите Ваше имя.." maxlength="20">
+							<input type="text" placeholder="Введите Ваше имя.." maxlength="20" pattern="^[A-Za-z]+$">
 							<input type="email" name = "email" placeholder="Введите email .." maxlength="50">
 							<input type="submit" value="Хочу получать рассылку!">
 							</form>

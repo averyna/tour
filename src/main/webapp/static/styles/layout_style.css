@@ -28,18 +28,13 @@ body {
     padding: 0.5%;
     text-align: center;
     border:2px solid #111;
-    /*min-height: 200px; /*max-height???*/
-    /*max-height: 300px;*/
 }
 
 /* Style blocks inside header */
 .header_box{
     float: left;
-    /*display: inline-block;*/
     width: 33%;
     padding: 1%;
-    /*border:2px solid #111;*/
-    /*height: 100%;*/
     overflow: hidden;
 }
 
@@ -52,9 +47,8 @@ body {
   margin: 0;
   padding: 1%;
 }
-/*styling overfow property for the header_box on the right side*/
+
 #right{
-  /*overflow: visible;*/
   position: relative;
 }
 
@@ -168,6 +162,7 @@ body {
 
 /* Clear floats after the central_part columns */
 .central_part{
+  position: relative;
   background-color: #f1f1f1;
   border:2px solid #111;
   min-height: 70%;
@@ -206,7 +201,7 @@ body {
   color:#111;
   margin: 1%;
   padding: 1%;
-  font: ingerit;
+  /*font: inherit;*/
 }
 #mailing button:hover{
   background: #999;

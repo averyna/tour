@@ -15,9 +15,7 @@ public interface UserDao {
 
     int insertUser(String u_name, String u_password);
 
-    boolean existsUser(String u_name);
-
-    boolean verifiedUser(String u_name, String u_password)throws ClassNotFoundException, SQLException;
+    boolean userAuthorized(String u_name, String u_password);
 
     public static class Factory {
         private static UserDao instance = new UserDaoImpl();

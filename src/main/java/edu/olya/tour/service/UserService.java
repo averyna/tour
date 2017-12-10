@@ -12,8 +12,7 @@ public interface UserService {
     User getUser(String u_name);
     int deleteUser(long id);
     int insertUser(String u_name, String u_password);
-    boolean existsUser(String u_name);
-    boolean verifiedUser(String u_name, String u_password)throws ClassNotFoundException, SQLException;
+    boolean userAuthorized(String u_name, String u_password);
 
     public static class Factory {
         private static UserService instance;

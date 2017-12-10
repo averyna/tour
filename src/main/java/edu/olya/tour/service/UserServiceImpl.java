@@ -20,10 +20,7 @@ public class UserServiceImpl implements UserService{
     public int insertUser(String u_name, String u_password) {
         return UserDao.Factory.getInstance().insertUser(u_name, u_password);
     }
-    public boolean existsUser(String u_name){
-        return UserDao.Factory.getInstance().existsUser(u_name);
-    }
-    public boolean verifiedUser(String u_name, String u_password)throws ClassNotFoundException, SQLException{
-        return UserDao.Factory.getInstance().verifiedUser(u_name, u_password);
+    public boolean userAuthorized(String u_name, String u_password){
+        return UserDao.Factory.getInstance().userAuthorized(u_name, u_password);
     }
 }

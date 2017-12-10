@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE>
-<html lang="en-us">
+<html lang="ru-ru">
 <head>
     <title>Главная страница</title>
 	<meta charset="UTF-8">

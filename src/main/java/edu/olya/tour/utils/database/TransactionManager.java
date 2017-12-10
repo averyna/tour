@@ -28,8 +28,6 @@ public class TransactionManager {
                     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
                         Connection connection = null;
-                        System.out.println("Before method execution  " + method.getName());
-
                         try {
                             connection = ConnectionManager.getConnection();
                             ConnectionHolder.setConnection(connection);
@@ -37,13 +35,11 @@ public class TransactionManager {
 
                             Object result = method.invoke(originalReference, args);
                             connection.commit(); //This method should be used only when auto-commit mode has been disabled.
-                            System.out.println("After method execution");
                             return result;
                         } catch (Exception e) {
                             if (connection != null) {
                                 connection.rollback();//This method should be used only when auto-commit mode has been disabled.
                             }
-                            System.out.println("On exception method execution");
                                throw e;
                         } finally {
                             if (connection != null) {

@@ -34,6 +34,21 @@
   overflow: hidden;
 }
 
+.del_comment{
+    float: right;
+    display: inline-block;
+    padding-right: 3%;
+    overflow: hidden;
+    margin:0;
+}
+
+.del_comment>input{
+    font-style: italic;
+    font-weight: bold;
+    color: darkred;
+    background-color: inherit;
+}
+
 .comment {
   padding: 1%;
   margin: 1%;

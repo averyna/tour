@@ -2,19 +2,21 @@ package edu.olya.tour.model;
 
 //Model Object Simple POJO containing get/set methods to store data
 public class User {
-    private int id;
+    private long id;
     private String name;
     private String password;
+    private String role;
 
     public User(){}
 
-    public User(int id, String name, String password) {
+    public User(long id, String name, String password, String role) {
         this.id = id;
         this.name = name;
         this.password = password;
+        this.role = role;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -36,6 +38,15 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override

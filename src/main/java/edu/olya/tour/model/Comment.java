@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.Map;
 
 public class Comment {
+    long id;
     private String author;
     private Date date;
     private String comment;
@@ -17,6 +18,13 @@ public class Comment {
     private Comment() {}
 
     public Comment(String author, Date date, String comment) {
+        this.author = author;
+        this.date = date;
+        this.comment = comment;
+    }
+
+    public Comment(long id, String author, Date date, String comment) {
+        this.id = id;
         this.author = author;
         this.date = date;
         this.comment = comment;
@@ -56,6 +64,14 @@ public class Comment {
 //            }
         }
         return comment;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getAuthor() {

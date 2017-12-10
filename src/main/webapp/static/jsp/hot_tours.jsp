@@ -6,7 +6,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE>
-<html lang="en-us">
+<html lang="ru-ru">
 <head>
     <title>Горящие туры</title>
 	<meta charset="UTF-8">

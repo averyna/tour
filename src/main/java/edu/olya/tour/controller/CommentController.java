@@ -1,6 +1,8 @@
 package edu.olya.tour.controller;
 
+import com.google.gson.Gson;
 import edu.olya.tour.model.Comment;
+import edu.olya.tour.model.ShortUser;
 import edu.olya.tour.service.CommentService;
 
 import javax.servlet.ServletException;
@@ -25,15 +27,24 @@ public class CommentController extends HttpServlet {
         try {
             Comment comment = Comment.parse(request.getParameterMap());
             commentService.insertComment(comment);
-        }catch (NumberFormatException | IllegalAccessException | ParseException e){
+        } catch (NumberFormatException | IllegalAccessException | ParseException e) {
             e.printStackTrace();
         }
 
         forwardComments(request, response);
     }
 
-    private void forwardComments(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    /*теперь основной вопрос котррый тебя будет мучать как отправить HTTP DELETE :) */
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //System.out.println("id: " + req.getHeader("id"));
+        commentService.deleteComment(Long.parseLong(req.getHeader("id")));
+        forwardComments(req, resp);
 
+        //запрос на сервер был без перезагрузки страницы
+    }
+
+    private void forwardComments(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Comment> comments = commentService.getAllComments();
 
         request.setAttribute("comments", comments);
