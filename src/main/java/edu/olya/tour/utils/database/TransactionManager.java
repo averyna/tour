@@ -5,6 +5,9 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.sql.Connection;
 
+/**
+ * todo нужна документация чем класс занимается
+ */
 public class TransactionManager {
 
     public static <T> T wrap(T service) {

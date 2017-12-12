@@ -5,6 +5,10 @@ import javax.servlet.ServletRequestListener;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+
+/**
+ * todo нужна документация чем класс занимается
+ */
 public class WebContextListener implements ServletRequestListener {
     @Override
     public void requestInitialized(ServletRequestEvent sre) {

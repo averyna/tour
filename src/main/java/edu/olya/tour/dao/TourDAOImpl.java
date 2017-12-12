@@ -52,7 +52,7 @@ public class TourDAOImpl extends AbstractDAO implements TourDAO {
         buildSearchSql(sql, params, searchParameters);
 
         return executeQuery(sql.toString(),
-                new RowCreator<TourView>() {
+                new RowCreator<TourView>() { //todo вынеси в отдельный вложенный класс
                     @Override
                     public TourView buildRow(ResultSet rs) throws SQLException {
                         int id = rs.getInt("id");

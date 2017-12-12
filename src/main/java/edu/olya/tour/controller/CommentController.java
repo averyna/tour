@@ -38,7 +38,7 @@ public class CommentController extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //System.out.println("id: " + req.getHeader("id"));
-        commentService.deleteComment(Long.parseLong(req.getHeader("id")));
+        commentService.deleteComment(Long.parseLong(req.getHeader("id")));//todo подобные методы разнеси на отдельные строки, если свалится ошибка будет непонятно на чем именно она свалилась
         forwardComments(req, resp);
 
         //запрос на сервер был без перезагрузки страницы

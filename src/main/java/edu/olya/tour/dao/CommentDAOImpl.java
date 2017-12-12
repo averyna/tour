@@ -14,7 +14,7 @@ public class CommentDAOImpl extends AbstractDAO implements CommentDAO {
     public List<Comment> getAllComments() {
         return executeQuery(
                 "SELECT id, author, date, comment from comments ORDER BY date;",
-                new RowCreator<Comment>() {
+                new RowCreator<Comment>() {//todo вынести во вложенный класс
                     @Override
                     public Comment buildRow(ResultSet rs) throws SQLException {
                         long id = rs.getLong(1);

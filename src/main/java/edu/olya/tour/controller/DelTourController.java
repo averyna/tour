@@ -49,7 +49,7 @@ public class DelTourController extends HttpServlet {
         request.getRequestDispatcher(LAYOUT_PAGE).forward(request, response);
     }
 
-    private void populateSearchForm() {
+    private void populateSearchForm() {//todo дублирование кода AddTourController
         FilterService filterService = FilterService.Factory.getInstance();
         filterService.getAllCountries();
         filterService.getAllTourTypes();
@@ -58,6 +58,6 @@ public class DelTourController extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doGet(request,response);
+        doGet(request,response); //todo то что связанно с post должно быть в doPost.
     }
 }
