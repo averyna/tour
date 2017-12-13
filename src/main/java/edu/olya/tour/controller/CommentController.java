@@ -2,7 +2,6 @@ package edu.olya.tour.controller;
 
 import com.google.gson.Gson;
 import edu.olya.tour.model.Comment;
-import edu.olya.tour.model.ShortUser;
 import edu.olya.tour.service.CommentService;
 
 import javax.servlet.ServletException;
