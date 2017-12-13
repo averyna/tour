@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 
+//todo все энтити модели должны иметь default constructor, методы toString & hashCode, и быть сериализуемыми. Зачем каждый из этих пунктов, попробуй сама до этого дойти - вопрос на сеобеседовании может быть
 public class Comment {
     long id;
     private String author;
@@ -30,6 +31,7 @@ public class Comment {
         this.comment = comment;
     }
 
+    //todo - все методы parse вынеси в отдельный утилитный класс, например ObjectBuilder, после этого устрани дублирование кода
     public static Comment parse(Map<String, String[]> parameterMap)
             throws NumberFormatException, IllegalAccessException, ParseException {
 

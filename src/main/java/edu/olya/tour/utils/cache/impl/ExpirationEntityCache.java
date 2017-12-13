@@ -5,6 +5,9 @@ import edu.olya.tour.utils.cache.Cache;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * todo тут должен быть javadoc для класса который описывает какое кэширование в нем реализовано
+ */
 public class ExpirationEntityCache implements Cache {
     //private long expirationTime = 10000;
     private long expirationTime;

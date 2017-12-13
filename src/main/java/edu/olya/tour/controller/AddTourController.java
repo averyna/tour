@@ -22,7 +22,7 @@ public class AddTourController extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//в следующей строке в tourService возвращается proxy, приведенный к типу TourServiceImpl
+//todo очисти код от таких комментариев - в следующей строке в tourService возвращается proxy, приведенный к типу TourServiceImpl
         TourService tourService = TourService.Factory.getInstance();
 
         //т.к. tourService - это прокси, insertTour будет вызываться не напрямую, а через invoke
@@ -42,7 +42,7 @@ public class AddTourController extends HttpServlet {
         request.getRequestDispatcher(LAYOUT_PAGE).forward(request, response);
     }
 
-    private void populateSearchForm() {
+    private void populateSearchForm() {//TODO что делает этот метод ?
         FilterService filterService = FilterService.Factory.getInstance();
         filterService.getAllCountries();
         filterService.getAllTourTypes();

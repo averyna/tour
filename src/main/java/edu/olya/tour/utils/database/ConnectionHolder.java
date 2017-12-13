@@ -2,6 +2,9 @@ package edu.olya.tour.utils.database;
 
 import java.sql.Connection;
 
+/**
+ * todo нужна документация чем класс занимается
+ */
 public class ConnectionHolder {
     private static ThreadLocal<Connection> THREAD_CONTEXT = new ThreadLocal<Connection>();
 

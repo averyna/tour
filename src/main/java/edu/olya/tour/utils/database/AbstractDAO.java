@@ -8,7 +8,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-abstract public class AbstractDAO {
+/**
+ * todo нужна общая информация о классе, типа "класс предоставляет такие то механизмы"
+ */
+abstract public class AbstractDAO {//todo модификатор доступа всегда должен идти мервым
 
     /**
      * Executes the <code>SELECT</code> SQL statement
@@ -28,20 +31,20 @@ abstract public class AbstractDAO {
                 values.add(rowCreator.buildRow(rs));
             }
         }catch (SQLException e){
-            e.printStackTrace();
+            e.printStackTrace(); //todo не должно быть не обработанных исключительных ситуаций, либо залогирована, либо проброшена наверх
         } finally {
-            if (rs != null) {
+            if (rs != null) { // todo убери дублирование кода
                 try {
                     rs.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    e.printStackTrace(); //todo не должно быть не обработанных исключительных ситуаций, либо залогирована, либо проброшена наверх
                 }
             }
-            if (ps != null) {
+            if (ps != null) { // todo убери дублирование кода
                 try {
                     ps.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    e.printStackTrace(); //todo не должно быть не обработанных исключительных ситуаций, либо залогирована, либо проброшена наверх
                 }
             }
         }
@@ -80,20 +83,20 @@ abstract public class AbstractDAO {
                 );
             }
         }catch (SQLException e){
-            e.printStackTrace();
+            e.printStackTrace(); //todo не должно быть не обработанных исключительных ситуаций, либо залогирована, либо проброшена наверх
         } finally {
-            if (rs != null) {
+            if (rs != null) {// todo убери дублирование кода
                 try {
                     rs.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    e.printStackTrace(); //todo не должно быть не обработанных исключительных ситуаций, либо залогирована, либо проброшена наверх
                 }
             }
-            if (ps != null) {
+            if (ps != null) {// todo убери дублирование кода
                 try {
                     ps.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    e.printStackTrace(); //todo не должно быть не обработанных исключительных ситуаций, либо залогирована, либо проброшена наверх
                 }
             }
         }
@@ -124,11 +127,11 @@ abstract public class AbstractDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            if (ps != null) {
+            if (ps != null) {// todo убери дублирование кода
                 try {
                     ps.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    e.printStackTrace(); //todo не должно быть не обработанных исключительных ситуаций, либо залогирована, либо проброшена наверх
                 }
             }
         }

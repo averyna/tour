@@ -7,7 +7,9 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-
+/**
+ * todo нужна документация чем класс занимается
+ */
 public class ConnectionManager {
 
     private static DataSource APPLICATION_DATASOURCE;

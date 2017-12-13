@@ -15,6 +15,7 @@ import java.util.List;
  */
 public class UserDaoImpl extends AbstractDAO implements UserDao {
 
+    //todo жавадоки пишутся обычно на интерфейсы, за исключением если в реализации содержится какая либо специфика
     /**
      * searches all users
      *
@@ -24,7 +25,7 @@ public class UserDaoImpl extends AbstractDAO implements UserDao {
     public List<User> getUsers() {
         return executeQuery(
                 "SELECT id, name, password, role from users;",
-                new RowCreator<User>() {
+                new RowCreator<User>() { //todo RowCreator<User> вынеси в отдельный вложенный класс и индексы колонок замени на конкретные имена - убери дублирование кода
                     @Override
                     public User buildRow(ResultSet rs) throws SQLException {
                         int id = rs.getInt(1);
@@ -48,7 +49,7 @@ public class UserDaoImpl extends AbstractDAO implements UserDao {
         params.add(u_name);
         List<User> result = executeQuery(
                 "SELECT id, name, password, role from users WHERE users.name = ?;",
-                new RowCreator<User>() {
+                new RowCreator<User>() { //todo RowCreator<User> вынеси в отдельный вложенный класс и индексы колонок замени на конкретные имена - убери дублирование кода
                     @Override
                     public User buildRow(ResultSet rs) throws SQLException {
                         int id = rs.getInt(1);
@@ -81,7 +82,7 @@ public class UserDaoImpl extends AbstractDAO implements UserDao {
         params.add(u_password);
         List<User> result = executeQuery(
                 "SELECT id, name, password, role from users WHERE users.name = ? AND users.password = ?",
-                new RowCreator<User>() {
+                new RowCreator<User>() {//todo RowCreator<User> вынеси в отдельный вложенный класс и индексы колонок замени на конкретные имена - убери дублирование кода
                     @Override
                     public User buildRow(ResultSet rs) throws SQLException {
                         int id = rs.getInt(1);

@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * todo нужна документация чем фильтр занимается
+ */
 public class AuthorizationFilter implements Filter {
     private static final String LAYOUT_PAGE = "/static/jsp/layout.jsp";
     private Set<String> securedPaths = new HashSet<>();

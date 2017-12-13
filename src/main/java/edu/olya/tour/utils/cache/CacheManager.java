@@ -31,10 +31,8 @@ public class CacheManager {
                                     Field objField = handlerClass.getDeclaredField("originalReference");
                                     objField.setAccessible(true);
                                     behindProxy = objField.get(handler);
-                                } catch (NoSuchFieldException e) {
-                                    e.printStackTrace();
-                                } catch (IllegalAccessException e) {
-                                    e.printStackTrace();
+                                } catch (NoSuchFieldException | IllegalAccessException e) {
+                                    e.printStackTrace(); //todo не должно быть не обработанных исключительных ситуаций, все эти случаи необходимо либо явным образом логировать, либо пробрасывать наверх
                                 }
                             }
 

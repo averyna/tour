@@ -9,7 +9,6 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-
 public @interface CacheConfig {
     Class<? extends Cache> cacheImpl() default ExpirationEntityCache.class;
     Scope scope() default Scope.APPLICATION;

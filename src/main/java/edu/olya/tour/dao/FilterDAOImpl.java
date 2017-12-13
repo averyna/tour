@@ -14,7 +14,7 @@ import java.util.List;
  * Data Access Object class implements CountryDao interface
  */
 public class FilterDAOImpl extends AbstractDAO implements FilterDAO {
-
+    //todo индексы в rs.getInt и т.п. должны быть заменены на имена колонок
     @Override
     public List<Country> getAllCountries() {
         return executeQuery("SELECT id, country FROM countries", new RowCreator<Country>(){
