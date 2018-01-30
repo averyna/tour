@@ -7,7 +7,10 @@ import javax.servlet.http.HttpSession;
 
 
 /**
- * todo нужна документация чем класс занимается
+ * This class represents a listener that sets the values of thread local variables
+ * of {@code WebContextHolder} class.
+ * It passes current servlet or session contexts as setter's parameter when the
+ * request is initialized and passes null when request is destroyed.
  */
 public class WebContextListener implements ServletRequestListener {
     @Override

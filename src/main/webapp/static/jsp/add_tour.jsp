@@ -23,7 +23,7 @@
 
     <c:set var = "cache" scope = "page" value = "${applicationScope['edu.olya.tour.utils.cache.Cache']}"/>
 
-    <form class="filter_form" action="/tour/addTour" method="get">
+    <form class="filter_form" action="/tour/addTour" method="post">
 
         <label for="countryId">Страна</label>
             <select id="countryId" name="countryId"  required>

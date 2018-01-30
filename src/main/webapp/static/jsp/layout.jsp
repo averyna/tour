@@ -7,7 +7,6 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <meta charset="UTF-8">
-	<meta charset="UTF-8">
 	<meta name="description" content="Турагентство Сусанин Тур. Отдых, курорты, билеты. ">
 	<meta name="keywords" content="отдых, туры, путевки">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,7 +30,7 @@
 				<button onclick="callButtonClick()">Заказать звонок менеджера</button>
 				<div id="panel">
 					<form> <!-- onblur="hide()"-->
-						<input type="text" name="firstname" id="firstname" placeholder="Введите Ваше имя.." pattern="^[A-Za-z]+$" required>
+						<input type="text" name="firstname" id="firstname" placeholder="Введите Ваше имя.." pattern="^[А-Яа-я]+$" required>
 						<input type="text" name="phone" id="phone" placeholder="Введите номер телефона .." required>
 						<input type="submit" value="Позвоните мне!" onclick="return callSubmitButtonClick(this.form)">
 				  </form>
@@ -71,10 +70,10 @@
 				<p>Узнавайте первыми о горящих турах по электронной почте!!!</p>
 				<button onclick="mailingClick()">Подписаться на рассылку</button>
 					<div id="mailingPanel">
-							<form class="mailing_form" action="" onsubmit="mailSubmitButtonClick()" method="post">
-							<input type="text" placeholder="Введите Ваше имя.." maxlength="20" pattern="^[A-Za-z]+$">
-							<input type="email" name = "email" placeholder="Введите email .." maxlength="50">
-							<input type="submit" value="Хочу получать рассылку!">
+							<form class="mailing_form" action="" method="post">
+                                <input type="text" placeholder="Введите Ваше имя.." name="firstname" maxlength="20" pattern="^[А-Яа-я]+$" required>
+                                <input type="email" name = "mail" placeholder="Введите email .." maxlength="50" required>
+                                <input type="submit" value="Хочу получать рассылку!" onclick="return mailSubmitButtonClick(form)">
 							</form>
 					</div>
 				</div>

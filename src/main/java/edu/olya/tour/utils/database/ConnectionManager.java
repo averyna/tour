@@ -8,7 +8,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * todo нужна документация чем класс занимается
+ * The class provides methods to obtain connection through a {@code DataSource}
+ * object and to close this connection.
  */
 public class ConnectionManager {
 

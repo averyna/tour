@@ -1,7 +1,6 @@
 package edu.olya.tour.controller;
 
 import edu.olya.tour.model.TourView;
-import edu.olya.tour.service.FilterService;
 import edu.olya.tour.service.TourService;
 
 import javax.servlet.ServletException;
@@ -16,13 +15,19 @@ import java.util.Map;
 
 @WebServlet(name = "DelTourController")
 public class DelTourController extends HttpServlet {
+
+    TourService tourService = TourService.Factory.getInstance();
     private static final String LAYOUT_PAGE = "/static/jsp/layout.jsp";
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        TourService tourService = TourService.Factory.getInstance();
+        List<TourView> tours = tourService.searchTours(null);
+        request.setAttribute("tours", tours);
 
-        //нужно определить, какая кнопка была нажата для перехода ("Удалить" или "Выбрать параметры")
-        //или же переход осуществлен по клику вкладки навигационной панели "Удалить тур" (в этом случае button == null)
+        request.setAttribute("page", "del_tour.jsp");
+        request.getRequestDispatcher(LAYOUT_PAGE).forward(request, response);
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String button = request.getParameter("submit_button");
         if (button != null && button.compareTo("Удалить") == 0) {
             long qty = 0;
@@ -43,21 +48,7 @@ public class DelTourController extends HttpServlet {
             List<TourView> tours = tourService.searchTours(searchParameters);
             request.setAttribute("tours", tours);
         }
-
-        populateSearchForm();
         request.setAttribute("page", "del_tour.jsp");
         request.getRequestDispatcher(LAYOUT_PAGE).forward(request, response);
-    }
-
-    private void populateSearchForm() {//todo дублирование кода AddTourController
-        FilterService filterService = FilterService.Factory.getInstance();
-        filterService.getAllCountries();
-        filterService.getAllTourTypes();
-        filterService.getAllMealTypes();
-        filterService.getAllHotels();
-    }
-
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doGet(request,response); //todo то что связанно с post должно быть в doPost.
     }
 }

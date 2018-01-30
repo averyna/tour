@@ -1,16 +1,15 @@
 package edu.olya.tour.controller;
 
 import edu.olya.tour.model.User;
-import edu.olya.tour.dao.UserDao;
-import edu.olya.tour.dao.UserDaoImpl;
 import edu.olya.tour.service.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.SQLException;
 
 public class AuthorizationController extends javax.servlet.http.HttpServlet {
     private static final String LAYOUT_PAGE = "/static/jsp/layout.jsp";
@@ -22,8 +21,8 @@ public class AuthorizationController extends javax.servlet.http.HttpServlet {
 
         UserService userService = UserService.Factory.getInstance();
         User user = userService.getUser(name_param);
-        if(password_param.equals(user.getPassword())) {
-            session.setAttribute("role", user.getRole()); //это делать не обязательно
+        if(user != null && password_param.equals(user.getPassword())) {
+            session.setAttribute("role", user.getRole());
             session.setAttribute(User.class.getName(), user);
             request.setAttribute("page", "index.jsp");
         }else {

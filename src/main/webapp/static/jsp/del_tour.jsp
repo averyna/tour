@@ -1,5 +1,3 @@
-<%@ page import="java.sql.*" %>
-<%@ page import="java.util.*" %>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -24,7 +22,7 @@
 
     <c:set var = "cache" scope = "page" value = "${applicationScope['edu.olya.tour.utils.cache.Cache']}"/>
 
-    <form class="filter_form" action="/tour/delTour" method="get">
+    <form class="filter_form" action="/tour/delTour" method="post">
 
         <label for="country">Страна</label>
             <select id="country" name="country">

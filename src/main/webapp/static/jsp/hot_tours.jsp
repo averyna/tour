@@ -1,5 +1,3 @@
-<%@ page import="java.sql.*" %>
-<%@ page import="java.util.*" %>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>

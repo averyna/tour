@@ -3,6 +3,11 @@ package edu.olya.tour.utils.context;
 import javax.servlet.*;
 import java.io.IOException;
 
+/**
+ * This filter is mapped to all urls of the application and is responsible to set
+ * character encoding for {@code ServletRequest} object.
+ */
+
 public class RequestEncodingFilter implements Filter {
     private String requestContentEncoding;
 

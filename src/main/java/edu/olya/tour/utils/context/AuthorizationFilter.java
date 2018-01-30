@@ -10,7 +10,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * todo нужна документация чем фильтр занимается
+ * The filter compares servlet path with secured paths and determines
+ * whether the user is authorised or not.
+ * When the user is not authorised they are redirected to the log in page.
+ * Otherwise user moves to the requested url.
  */
 public class AuthorizationFilter implements Filter {
     private static final String LAYOUT_PAGE = "/static/jsp/layout.jsp";
@@ -36,7 +39,7 @@ public class AuthorizationFilter implements Filter {
 
         if(securedPaths.contains(contextPath)) {
             User user = (User) session.getAttribute(User.class.getName());
-            if (user == null) {// если атрибута нет в сессии значит пользователь не залогинен
+            if (user == null) {
                 request.setAttribute("page", "authorization.jsp");
                 request.getRequestDispatcher(LAYOUT_PAGE).forward(request, response);
                 return;

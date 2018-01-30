@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface TourService {
-    //@CacheConfig()
+
     List<TourView> searchTours(Map<String, String[]> searchParameters);
 
     int insertTour(Tour tour);
@@ -25,7 +25,7 @@ public interface TourService {
                         TransactionManager.wrap(
                                 new TourServiceImpl()
                         )
-                ); //возвращается proxy, приведенный к типу TourServiceImpl
+                );
             }
             return instance;
         }

@@ -6,10 +6,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * todo тут должен быть javadoc для класса который описывает какое кэширование в нем реализовано
+ * The class {@code ExpirationEntityCache} represents the cache with objects which are expired by specified
+ * timeout. After timeout all expired entities will be overwrited, but not autoremoved,
+ * The instance of type {@code ExpirationEntityCache} contains a map of cached objects {@code cacheMap} and
+ * provides methods for putting objects to the map and getting objects from it.
+ * In order to provide efficiency of cache, an {@code expirationTime} field should be assigned to some value
+ * of type {@code long}, before putting an object to the map.
+ * The object is being placed to the map of cashed objects with the specified {@code expireAt}
+ * property and can be retrieved from the map while the value of {@code expireAt} property exceeds current time.
  */
+
 public class ExpirationEntityCache implements Cache {
-    //private long expirationTime = 10000;
+
     private long expirationTime;
 
     private Map<String, ExpirationValue> cacheMap = new HashMap();

@@ -1,12 +1,8 @@
 package edu.olya.tour.dao;
 
+import edu.olya.tour.dao.creators.UserRowCreator;
 import edu.olya.tour.model.User;
 import edu.olya.tour.utils.database.AbstractDAO;
-import edu.olya.tour.utils.database.ConnectionHolder;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,51 +11,19 @@ import java.util.List;
  */
 public class UserDaoImpl extends AbstractDAO implements UserDao {
 
-    //todo жавадоки пишутся обычно на интерфейсы, за исключением если в реализации содержится какая либо специфика
-    /**
-     * searches all users
-     *
-     * @return returns list of users
-     */
     @Override
     public List<User> getUsers() {
         return executeQuery(
                 "SELECT id, name, password, role from users;",
-                new RowCreator<User>() { //todo RowCreator<User> вынеси в отдельный вложенный класс и индексы колонок замени на конкретные имена - убери дублирование кода
-                    @Override
-                    public User buildRow(ResultSet rs) throws SQLException {
-                        int id = rs.getInt(1);
-                        String name = rs.getString(2);
-                        String password = rs.getString(3);
-                        String role = rs.getString(4);
-                        return new User(id, name, password, role);
-                    }
-                }
-        );
+                new UserRowCreator());
     }
 
-    /**
-     * searches user by user name
-     *
-     * @param u_name user name
-     * @return returns user object
-     */
     public User getUser(String u_name) {
         List<Object> params = new ArrayList<>();
         params.add(u_name);
         List<User> result = executeQuery(
                 "SELECT id, name, password, role from users WHERE users.name = ?;",
-                new RowCreator<User>() { //todo RowCreator<User> вынеси в отдельный вложенный класс и индексы колонок замени на конкретные имена - убери дублирование кода
-                    @Override
-                    public User buildRow(ResultSet rs) throws SQLException {
-                        int id = rs.getInt(1);
-                        String name = rs.getString(2);
-                        String password = rs.getString(3);
-                        String role = rs.getString(4);
-                        return new User(id, name, password, role);
-                    }
-                }, params
-        );
+                new UserRowCreator(), params);
         if (result.isEmpty()) {
             return null;
         }
@@ -69,30 +33,14 @@ public class UserDaoImpl extends AbstractDAO implements UserDao {
         return result.get(0);
     }
 
-    /**
-     * Method determines whether user with specified name and password exists in database
-     *
-     * @param u_name     user name
-     * @param u_password user password
-     * @return returns users id if the User exists in database, otherwise returns 0
-     */
+
     public boolean userAuthorized(String u_name, String u_password) {
         List<Object> params = new ArrayList<>();
         params.add(u_name);
         params.add(u_password);
         List<User> result = executeQuery(
                 "SELECT id, name, password, role from users WHERE users.name = ? AND users.password = ?",
-                new RowCreator<User>() {//todo RowCreator<User> вынеси в отдельный вложенный класс и индексы колонок замени на конкретные имена - убери дублирование кода
-                    @Override
-                    public User buildRow(ResultSet rs) throws SQLException {
-                        int id = rs.getInt(1);
-                        String name = rs.getString(2);
-                        String password = rs.getString(3);
-                        String role = rs.getString(4);
-                        return new User(id, name, password, role);
-                    }
-                }, params
-        );
+                new UserRowCreator() , params);
         if (result.isEmpty()) {
             return false;
         }
@@ -102,29 +50,26 @@ public class UserDaoImpl extends AbstractDAO implements UserDao {
         return true;
     }
 
-    /**
-     * Deletes user with specified id parameter
-     *
-     * @param id user id from database
-     */
+    @Override
+    public User registerUser(User user) {
+        insertUser(user.getName(), user.getPassword());
+        return getUser(user.getName());
+    }
+
     public int deleteUser(long id) {
         List<Object> params = new ArrayList<>(1);
         params.add(id);
         return executeUpdate("DELETE from users WHERE users.id = ?;", params);
     }
 
-    /**
-     * Inserts user
-     *
-     * @param u_name     user name
-     * @param u_password user password
-     */
     public int insertUser(String u_name, String u_password) {
         List<Object> params = new ArrayList<>();
         params.add(u_name);
         params.add(u_password);
         return executeUpdate("INSERT  INTO users (name, password) VALUES (?, ?);", params);
     }
+
+
 
 }
 

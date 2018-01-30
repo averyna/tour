@@ -2,6 +2,7 @@ package edu.olya.tour.model;
 
 import java.beans.PropertyEditor;
 import java.beans.PropertyEditorManager;
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -10,7 +11,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 
-public class Tour {
+public class Tour implements Serializable {
     private int id;
     private int countryId;
     private int tourTypeId;
@@ -22,8 +23,7 @@ public class Tour {
     private int mealTypeId;
     private BigDecimal price;
 
-    public Tour() {
-    }
+    public Tour() {}
 
     public Tour( int countryId, int tourTypeId, Date startDate,
                 int adults, int children, int nights, int hotelId,
@@ -37,56 +37,6 @@ public class Tour {
         this.hotelId = hotelId;
         this.mealTypeId = mealTypeId;
         this.price = price;
-    }
-
-    public static Tour parse(Map<String, String[]> parameterMap)
-            throws NumberFormatException, IllegalAccessException, ParseException{
-
-        Tour tour = new Tour();
-
-        for (Map.Entry<String, String []> param : parameterMap.entrySet()) {
-            String paramName = param.getKey();
-
-            String paramValue = Arrays.toString( param.getValue());
-            //System.out.println(paramName + " /" + paramValue + "/");
-            paramValue = paramValue.substring(1, paramValue.length() - 1);
-
-            Field field = null;
-            try {
-                //field gets all information about field "paramName"
-                field = Tour.class.getDeclaredField(paramName);
-                //System.out.println(field);
-                //After gerDeclaredField()  field = private java.lang.String main.java.edu.olya.mytour.dao.SearchParam.meal_type
-            } catch (NoSuchFieldException e) {
-                //throw new Exception("Unknown argument name: " + paramName);
-                //System.out.println("Unknown argument name: " + paramName); // for submit button
-                continue;
-            }
-            Class fieldType = field.getType(); //fieldType =  public class java.io.File
-
-      //      try {
-                PropertyEditor pe = PropertyEditorManager.findEditor(fieldType); //Class fieldType = field.getType()
-                if (pe == null) { //if editor can't be found
-                    //If the specified object argument is an instance of the class or interface
-                    //declaring the underlying field
-                    if (fieldType == Date.class && paramValue.length() > 0) {
-                        //@param obj - the object whose field should be modified
-                        //@param value - the new value for the field
-                        field.set(tour, new SimpleDateFormat("yyyy-MM-dd").parse(paramValue)); //field == reference to the field
-                    }
-                    if (fieldType == BigDecimal.class && (paramValue.length() > 0)) {
-                        field.set(tour, new BigDecimal(paramValue));
-                    }
-                    // if there is an editor
-                } else if(paramValue.length() > 0) {
-                    pe.setAsText(paramValue); //Set the property value by parsing a given String
-                    field.set(tour, pe.getValue());
-                }
-//            } catch (NumberFormatException | IllegalAccessException | ParseException e) {
-//                //throw new ValidationException("Invalid data type " + paramName + " = " + paramValue + ", but required " + fieldType.getCanonicalName());
-//            }
-        }
-        return tour;
     }
 
     public int getId() {
@@ -167,6 +117,42 @@ public class Tour {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Tour tour = (Tour) o;
+
+        if (adults != tour.adults) return false;
+        if (children != tour.children) return false;
+        if (countryId != tour.countryId) return false;
+        if (hotelId != tour.hotelId) return false;
+        if (id != tour.id) return false;
+        if (mealTypeId != tour.mealTypeId) return false;
+        if (nights != tour.nights) return false;
+        if (tourTypeId != tour.tourTypeId) return false;
+        if (price != null ? !price.equals(tour.price) : tour.price != null) return false;
+        if (startDate != null ? !startDate.equals(tour.startDate) : tour.startDate != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + countryId;
+        result = 31 * result + tourTypeId;
+        result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
+        result = 31 * result + adults;
+        result = 31 * result + children;
+        result = 31 * result + nights;
+        result = 31 * result + hotelId;
+        result = 31 * result + mealTypeId;
+        result = 31 * result + (price != null ? price.hashCode() : 0);
+        return result;
     }
 
     @Override

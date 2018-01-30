@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <!--writing to file-->
+        <!--<File name="file" fileName="app.log">-->
+            <!--<PatternLayout>-->
+                <!--<Pattern>%d %p %c{1.} [%t] %m %ex%n</Pattern>-->
+            <!--</PatternLayout>-->
+        <!--</File>-->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Root level="trace">
+            <!--in order to send log messages with different levels to different appenders,-->
+            <!--we should specify the level for the appender in the lines below-->
+            <!--<AppenderRef ref="file" level="DEBUG"/>-->
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</Configuration>

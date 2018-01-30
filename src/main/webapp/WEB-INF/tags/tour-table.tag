@@ -1,4 +1,3 @@
-<%@tag import="edu.olya.tour.model.TourView" %>
 <%@tag body-content="scriptless" pageEncoding="UTF-8" %>
 <%@attribute name="tours" type="java.util.Collection" required="true" rtexprvalue="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>

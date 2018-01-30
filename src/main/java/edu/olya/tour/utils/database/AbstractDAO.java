@@ -1,6 +1,6 @@
 package edu.olya.tour.utils.database;
 
-import edu.olya.tour.dao.RowCreator;
+import edu.olya.tour.dao.creators.RowCreator;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,9 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * todo нужна общая информация о классе, типа "класс предоставляет такие то механизмы"
+ * The class provides methods for executing traditional SQL queries, such as
+ * {@code executeQuery} and {@code executeUpdate} and allows the user to avoid
+ * getting connection to database and closing resources in the end of execution.
+ *
  */
-abstract public class AbstractDAO {//todo модификатор доступа всегда должен идти мервым
+abstract public class AbstractDAO {
 
     /**
      * Executes the <code>SELECT</code> SQL statement
@@ -19,7 +22,7 @@ abstract public class AbstractDAO {//todo модификатор доступа 
      * @param rowCreator the row creator to create an object of specified class
      * @return a list of objects created with rowCreator from the data produced by the query
      */
-    public  <T> List<T>     executeQuery(String sql, RowCreator<T> rowCreator){
+    public <T> List<T> executeQuery(String sql, RowCreator<T> rowCreator){
         List<T> values = new ArrayList<>();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -30,23 +33,11 @@ abstract public class AbstractDAO {//todo модификатор доступа 
             while (rs.next()) {
                 values.add(rowCreator.buildRow(rs));
             }
-        }catch (SQLException e){
-            e.printStackTrace(); //todo не должно быть не обработанных исключительных ситуаций, либо залогирована, либо проброшена наверх
+        }catch (SQLException e) {
+            throw new DaoException(e);
         } finally {
-            if (rs != null) { // todo убери дублирование кода
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    e.printStackTrace(); //todo не должно быть не обработанных исключительных ситуаций, либо залогирована, либо проброшена наверх
-                }
-            }
-            if (ps != null) { // todo убери дублирование кода
-                try {
-                    ps.close();
-                } catch (SQLException e) {
-                    e.printStackTrace(); //todo не должно быть не обработанных исключительных ситуаций, либо залогирована, либо проброшена наверх
-                }
-            }
+            closeResources(ps);
+            closeResources(rs);
         }
         return values;
     }
@@ -82,23 +73,11 @@ abstract public class AbstractDAO {//todo модификатор доступа 
                         rowCreator.buildRow(rs)
                 );
             }
-        }catch (SQLException e){
-            e.printStackTrace(); //todo не должно быть не обработанных исключительных ситуаций, либо залогирована, либо проброшена наверх
+        }catch (SQLException e) {
+            throw new DaoException(e);
         } finally {
-            if (rs != null) {// todo убери дублирование кода
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    e.printStackTrace(); //todo не должно быть не обработанных исключительных ситуаций, либо залогирована, либо проброшена наверх
-                }
-            }
-            if (ps != null) {// todo убери дублирование кода
-                try {
-                    ps.close();
-                } catch (SQLException e) {
-                    e.printStackTrace(); //todo не должно быть не обработанных исключительных ситуаций, либо залогирована, либо проброшена наверх
-                }
-            }
+            closeResources(ps);
+            closeResources(rs);
         }
         return result;
     }
@@ -123,17 +102,23 @@ abstract public class AbstractDAO {//todo модификатор доступа 
                 ps.setObject(i + 1, param);
             }
             qty = ps.executeUpdate();
-            return qty;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DaoException(e);
         } finally {
-            if (ps != null) {// todo убери дублирование кода
-                try {
-                    ps.close();
-                } catch (SQLException e) {
-                    e.printStackTrace(); //todo не должно быть не обработанных исключительных ситуаций, либо залогирована, либо проброшена наверх
-                }
-            }
+            closeResources(ps);
         }
+        return qty;
+    }
+
+    private void closeResources (AutoCloseable resource){
+        try{
+            if (resource != null) {
+                resource.close();
+            }
+        }catch (Exception e) {
+            throw new DaoException(e);
+
+        }
+
     }
 }

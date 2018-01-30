@@ -9,10 +9,16 @@ import java.util.List;
 public interface UserService {
 
     List<User> getUsers();
+
     User getUser(String u_name);
+
     int deleteUser(long id);
+
     int insertUser(String u_name, String u_password);
+
     boolean userAuthorized(String u_name, String u_password);
+
+    User registerUser(User user);
 
     public static class Factory {
         private static UserService instance;

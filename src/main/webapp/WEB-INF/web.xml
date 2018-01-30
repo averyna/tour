@@ -42,6 +42,21 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+
+
+    <filter>
+        <filter-name>FormFilter</filter-name>
+        <filter-class>edu.olya.tour.utils.context.SearchFormFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>FormFilter</filter-name>
+        <url-pattern>/addTour</url-pattern>
+        <url-pattern>/delTour</url-pattern>
+        <url-pattern>/tourSearch</url-pattern>
+    </filter-mapping>
+
+
     <servlet>
         <servlet-name>pageController</servlet-name>
         <servlet-class>edu.olya.tour.controller.PageController</servlet-class>
@@ -122,63 +137,65 @@
         <url-pattern>/phoneCallQuery</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>mailController</servlet-name>
+        <servlet-class>edu.olya.tour.controller.MailController</servlet-class>
+    </servlet>
 
-    <!-- Servlet-Exception Handling -->
-    <!-- servlet definition -->
+    <servlet-mapping>
+        <servlet-name>mailController</servlet-name>
+        <url-pattern>/mailSubscription</url-pattern>
+    </servlet-mapping>
+
+    <!-- Exception Handling -->
     <servlet>
         <servlet-name>errorHandlerController</servlet-name>
         <servlet-class>edu.olya.tour.controller.ErrorHandlerController</servlet-class>
     </servlet>
 
-    <!-- servlet mappings -->
     <servlet-mapping>
         <servlet-name>errorHandlerController</servlet-name>
         <url-pattern>/errorHandler</url-pattern>
     </servlet-mapping>
 
      <!-- error-code related error pages -->
-    <!--<error-page>-->
-        <!--<error-code>404</error-code>-->
-        <!--<location>/errorHandler</location>-->
-    <!--</error-page>-->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/errorHandler</location>
+    </error-page>
 
-    <!--<error-page>-->
-        <!--<error-code>403</error-code>-->
-        <!--<location>/errorHandler</location>-->
-    <!--</error-page>-->
+    <error-page>
+        <error-code>403</error-code>
+        <location>/errorHandler</location>
+    </error-page>
 
-    <!--<error-page>-->
-        <!--<error-code>500</error-code>-->
-        <!--<location>/errorHandler</location>-->
-    <!--</error-page>-->
+    <error-page>
+        <error-code>500</error-code>
+        <location>/errorHandler</location>
+    </error-page>
 
-    <!--<error-page>-->
-        <!--<error-code>503</error-code>-->
-        <!--<location>/errorHandler</location>-->
-    <!--</error-page>-->
+    <error-page>
+        <error-code>503</error-code>
+        <location>/errorHandler</location>
+    </error-page>
 
     <!-- exception-type related error pages -->
-    <!--<error-page>-->
-        <!--<exception-type>-->
-            <!--javax.servlet.ServletException-->
-        <!--</exception-type >-->
-        <!--<location>/errorHandler</location>-->
-    <!--</error-page>-->
 
-    <!--<error-page>-->
-        <!--<exception-type>java.io.IOException</exception-type >-->
-        <!--<location>/errorHandler</location>-->
-    <!--</error-page>-->
+    <error-page>
+    <exception-type>java.lang.RuntimeException</exception-type >
+    <location>/errorHandler</location>
+    </error-page>
 
     <!--To have a generic Error Handler for all the exceptions you should define following
      error-page instead of defining separate error-page elements for every exception-->
 
     <!--<error-page>-->
         <!--<exception-type>java.lang.Throwable</exception-type >-->
-        <!--<location>/ErrorHandler</location>-->
+        <!--<location>/errorHandler</location>-->
     <!--</error-page>-->
 
-    <!-- Servlet-Exception Handling finish -->
+
+    <!-- Exception Handling finish -->
 
     <resource-ref>
         <description>DB Connection</description>

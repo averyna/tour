@@ -22,6 +22,3 @@ public class PageController extends HttpServlet {
     }
 }
 
-//   /opt/apache-tomcat-9.0.1/bin/catalina.sh start
-//   /opt/apache-tomcat-9.0.1/bin/catalina.sh stop
-//   /opt/apache-tomcat-9.0.1/bin/catalina.sh jpda start

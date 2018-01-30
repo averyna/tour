@@ -1,8 +1,10 @@
 package edu.olya.tour.controller;
 
 import edu.olya.tour.model.Tour;
-import edu.olya.tour.service.FilterService;
 import edu.olya.tour.service.TourService;
+import edu.olya.tour.utils.ObjectBuilder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,7 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.ParseException;
 
 @WebServlet(name = "AddTourController")
 public class AddTourController extends HttpServlet {
@@ -18,38 +19,20 @@ public class AddTourController extends HttpServlet {
     private static final String LAYOUT_PAGE = "/static/jsp/layout.jsp";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doGet(request, response);
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//todo очисти код от таких комментариев - в следующей строке в tourService возвращается proxy, приведенный к типу TourServiceImpl
         TourService tourService = TourService.Factory.getInstance();
 
-        //т.к. tourService - это прокси, insertTour будет вызываться не напрямую, а через invoke
-        if(!request.getParameterMap().isEmpty()) {
-            try {
-                Tour tour = Tour.parse(request.getParameterMap());
+        if (!request.getParameterMap().isEmpty()) {
+                Tour tour = ObjectBuilder.parse(request.getParameterMap(), new Tour());
                 tourService.insertTour(tour);
-            }catch (NumberFormatException | IllegalAccessException | ParseException e){
-                e.printStackTrace();
-                request.setAttribute("invalidParams", true);
-            }
         }
-
-        populateSearchForm();
-
         request.setAttribute("page", "add_tour.jsp");
         request.getRequestDispatcher(LAYOUT_PAGE).forward(request, response);
     }
 
-    private void populateSearchForm() {//TODO что делает этот метод ?
-        FilterService filterService = FilterService.Factory.getInstance();
-        filterService.getAllCountries();
-        filterService.getAllTourTypes();
-        filterService.getAllMealTypes();
-        filterService.getAllHotels();
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("page", "add_tour.jsp");
+        request.getRequestDispatcher(LAYOUT_PAGE).forward(request, response);
     }
 }
-//todo: change hot_tours.jsp
 
 

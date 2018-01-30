@@ -1,22 +1,15 @@
 package edu.olya.tour.model;
 
-import java.beans.PropertyEditor;
-import java.beans.PropertyEditorManager;
-import java.lang.reflect.Field;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
+import java.io.Serializable;
 import java.util.Date;
-import java.util.Map;
 
-//todo все энтити модели должны иметь default constructor, методы toString & hashCode, и быть сериализуемыми. Зачем каждый из этих пунктов, попробуй сама до этого дойти - вопрос на сеобеседовании может быть
-public class Comment {
-    long id;
+public class Comment implements Serializable{
+    private long id;
     private String author;
     private Date date;
     private String comment;
 
-    private Comment() {}
+    public Comment() {}
 
     public Comment(String author, Date date, String comment) {
         this.author = author;
@@ -29,43 +22,6 @@ public class Comment {
         this.author = author;
         this.date = date;
         this.comment = comment;
-    }
-
-    //todo - все методы parse вынеси в отдельный утилитный класс, например ObjectBuilder, после этого устрани дублирование кода
-    public static Comment parse(Map<String, String[]> parameterMap)
-            throws NumberFormatException, IllegalAccessException, ParseException {
-
-        Comment comment = new Comment();
-
-        for (Map.Entry<String, String []> param : parameterMap.entrySet()) {
-            String paramName = param.getKey();
-
-            String paramValue = Arrays.toString( param.getValue());
-            paramValue = paramValue.substring(1, paramValue.length() - 1);
-
-            Field field = null;
-            try {
-                field = Comment.class.getDeclaredField(paramName);
-            } catch (NoSuchFieldException e) {
-                //throw new Exception("Unknown argument name: " + paramName);
-                continue;
-            }
-            Class fieldType = field.getType();
-
-            PropertyEditor pe = PropertyEditorManager.findEditor(fieldType);
-            if (pe == null) {
-                if (fieldType == Date.class && paramValue.length() > 0) {
-                    field.set(comment, new SimpleDateFormat("yyyy-MM-dd").parse(paramValue));
-                }
-            } else if(paramValue.length() > 0) {
-                pe.setAsText(paramValue);
-                field.set(comment, pe.getValue());
-            }
-//            } catch (NumberFormatException | IllegalAccessException | ParseException e) {
-//                //throw new ValidationException("Invalid data type " + paramName + " = " + paramValue + ", but required " + fieldType.getCanonicalName());
-//            }
-        }
-        return comment;
     }
 
     public long getId() {
@@ -98,5 +54,39 @@ public class Comment {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", author='" + author + '\'' +
+                ", date=" + date +
+                ", comment='" + comment + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Comment comment1 = (Comment) o;
+
+        if (id != comment1.id) return false;
+        if (author != null ? !author.equals(comment1.author) : comment1.author != null) return false;
+        if (comment != null ? !comment.equals(comment1.comment) : comment1.comment != null) return false;
+        if (date != null ? !date.equals(comment1.date) : comment1.date != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (author != null ? author.hashCode() : 0);
+        result = 31 * result + (date != null ? date.hashCode() : 0);
+        result = 31 * result + (comment != null ? comment.hashCode() : 0);
+        return result;
     }
 }

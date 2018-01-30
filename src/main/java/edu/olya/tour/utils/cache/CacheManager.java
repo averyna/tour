@@ -8,8 +8,31 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
+/**
+ * The {@code CacheManager} class wraps an object into a run-time generated class,
+ * implementing one or more interfaces, that automatically converts every method call to
+ * one of those interfaces into a call to the invoke method on a provided implementation
+ * of invocation handler.
+ *
+ * The InvocationHandler make decisions about how to handle the call, making use of the
+ * information available at runtime about the method, including annotations, parameter
+ * types and the method’s return type.
+ *
+ * The invoke method of the invocation handler provides additional behaviour to methods
+ * marked with {@code CacheConfig} annotation by placing the returned result of such methods
+ * into cache and making them available throw the application context.
+ */
 public class CacheManager {
 
+    /**
+     * Method creates an instance of a proxy class based on the interfaces provided with
+     * {@code service} object passed to this method and returns generated proxy transferred
+     * to the {@code <T>} type defined at run-time
+     * @param service an object that provides interfaces for further implementation with proxy
+     * @param <T> a run-time type of the object, passed as a parameter
+     * @return an instance of {@code Proxy} class for the specified interfaces
+     *       transferred to the type {@code <T>}
+     */
     public static <T> T wrap(T service) {
         Class[] interfaces = service.getClass().getInterfaces();
 
@@ -23,7 +46,7 @@ public class CacheManager {
                     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
                         try {
                             Object behindProxy = originalReference;
-                            //можно без while, но если оберток несколько, то без цикла не обойтись
+
                             while (Proxy.isProxyClass(behindProxy.getClass())) {
                                 try {
                                     Object handler = Proxy.getInvocationHandler(originalReference);
@@ -32,17 +55,13 @@ public class CacheManager {
                                     objField.setAccessible(true);
                                     behindProxy = objField.get(handler);
                                 } catch (NoSuchFieldException | IllegalAccessException e) {
-                                    e.printStackTrace(); //todo не должно быть не обработанных исключительных ситуаций, все эти случаи необходимо либо явным образом логировать, либо пробрасывать наверх
+                                    throw new Throwable(e);
                                 }
                             }
 
                             Method m = behindProxy.getClass().getMethod(method.getName(), method.getParameterTypes());
                             CacheConfig cacheConfig = m.getAnnotation(CacheConfig.class);
 
-
-                            //Returns this element's annotation for the specified type if such an annotation is present, else null.
-                            //interface edu.olya.tour.utils.cache.CacheConfig
-//                            CacheConfig cacheConfig = method.getAnnotation(CacheConfig.class);
                             boolean cacheEnabled = cacheConfig != null;
 
                             Cache cache = null;
@@ -53,8 +72,6 @@ public class CacheManager {
                                 StringBuilder keySb = new StringBuilder(method.getName());
                                 if(args != null) {
                                     for (Object s : args) {
-                                        //s.toString вернет имя класса, сущностью которого является аргуметн и хэш-код аргумента
-                                        //по сути это "return getClass().getName() + "@" + Integer.toHexString(hashCode());"
                                         keySb.append(s == null ? "null" : s.toString());
                                     }
                                 }
@@ -76,14 +93,12 @@ public class CacheManager {
                                         }
                                 }
 
-                                //получаем Object value(список стран) из  "ExpirationValue" fields: long expiredAt; Object value;
                                 Object cachedValue = cache.get(key);
 
-                                if (cachedValue != null) {//может быть null, если ExpirationValue==null или now > value.expiredAt
+                                if (cachedValue != null) {
                                     return cachedValue;
                                 }
                             }
-
                             Object result = method.invoke(originalReference, args);
 
                             if (cache != null) {

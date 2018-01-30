@@ -1,20 +1,15 @@
 package edu.olya.tour.dao;
 
+import edu.olya.tour.dao.creators.TourViewRowCreator;
 import edu.olya.tour.model.Tour;
 import edu.olya.tour.model.TourView;
+import edu.olya.tour.utils.ObjectBuilder;
 import edu.olya.tour.utils.database.AbstractDAO;
 
-import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Data Access Object class implements TourDao interface
- */
 public class TourDAOImpl extends AbstractDAO implements TourDAO {
 
     @Override
@@ -52,83 +47,15 @@ public class TourDAOImpl extends AbstractDAO implements TourDAO {
         buildSearchSql(sql, params, searchParameters);
 
         return executeQuery(sql.toString(),
-                new RowCreator<TourView>() { //todo вынеси в отдельный вложенный класс
-                    @Override
-                    public TourView buildRow(ResultSet rs) throws SQLException {
-                        int id = rs.getInt("id");
-                        String country = rs.getString("country");
-                        String tour_type = rs.getString("tour_type");
-                        Date start_date = rs.getDate("start_date");
-                        int adults = rs.getInt("adults");
-                        int children = rs.getInt("children");
-                        int nights = rs.getInt("nights");
-                        String hotel = rs.getString("hotel");
-                        String meal_type = rs.getString("meal_type");
-                        BigDecimal price = rs.getBigDecimal("price");
-
-                        return new TourView(id, country, tour_type, start_date,
-                                adults, children, nights, hotel, meal_type, price);
-                    }
-                }, params);
+                new TourViewRowCreator(), params);
     }
 
-
-//    private List<TourView> executeQuery (String sql,
-//                                         RowCreator<TourView> rowCreator,
-//                                         Map<String, String[]> searchParameters){
-//        List<TourView> result = new ArrayList<>();
-//
-//        PreparedStatement ps = null;
-//        ResultSet rs = null;
-//
-//
-//
-//        try {
-//            ps = ConnectionHolder.getConnection().
-//                    prepareStatement(sb.toString());
-//
-//            for (int i = 0; i < params.size(); i++) {
-//                Object param = params.get(i);
-//                ps.setObject(i + 1, param);
-//                System.out.println(i + " " + param);
-//            }
-//
-//            rs = ps.executeQuery();
-//
-//            while (rs.next()) {
-//                result.add(
-//                        rowCreator.buildRow(rs)
-//                );
-//            }
-//        }catch (SQLException e){
-//            e.printStackTrace();
-//        } finally {
-//            if (rs != null) {
-//                try {
-//                    rs.close();
-//                } catch (SQLException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//            if (ps != null) {
-//                try {
-//                    ps.close();
-//                } catch (SQLException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//        return result;
-//    }
-
-
-
     private void buildSearchSql(StringBuilder sql, List<Object> params, Map<String, String[]> searchParameters) {
-        if (searchParameters.isEmpty()) {
+        if (searchParameters == null || searchParameters.isEmpty()) {
             return;
         }
 
-        TourView searchParam = TourView.parse(searchParameters);
+        TourView searchParam = ObjectBuilder.parse(searchParameters, new TourView());
         sql.append("WHERE ");
         if (searchParam.getCountry() != null) {
             sql.append("country = ? ");

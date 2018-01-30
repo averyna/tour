@@ -1,9 +1,15 @@
 package edu.olya.tour.utils.cache;
 
 /**
- * todo нужна документация
+ * Scopes that can be used
  */
 public enum Scope {
+    /**
+     * A scope of the application
+     */
     APPLICATION,
+    /**
+     * A scope of the session
+     */
     SESSION
 }

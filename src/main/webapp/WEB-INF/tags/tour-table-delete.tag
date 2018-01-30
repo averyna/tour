@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <h4>Выберите туры, которые хотите удалить </h4>
-<form id="content_form" action="/tour/delTour" method="get" >
+<form id="content_form" action="/tour/delTour" method="post" >
     <table>
         <tr>
             <th></th>

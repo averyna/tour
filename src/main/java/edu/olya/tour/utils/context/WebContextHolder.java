@@ -4,22 +4,22 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 /**
- * todo нужна документация
+ * This class contains thread-local variables to hold application context and
+ * session context and the access to that variables via setters and getters.
  */
 public class WebContextHolder {
     private static ThreadLocal<HttpSession> SESSION_CONTEXT = new ThreadLocal<HttpSession>();
 
     /**
-     *
-     * @return
+     * @return session object stored in {@code SESSION_CONTEXT}
      */
     public static HttpSession getSessionContext() {
         return SESSION_CONTEXT.get();
     }
 
     /**
-     *
-     * @param session
+     * Method sets specified session object into {@code SESSION_CONTEXT} thread local variable.
+     * @param session a session object to be set
      */
     public static void setSessionContext(HttpSession session) {
         SESSION_CONTEXT.set(session);
@@ -29,16 +29,15 @@ public class WebContextHolder {
     private static ThreadLocal<ServletContext> APPLICATION_CONTEXT = new ThreadLocal<ServletContext>();
 
     /**
-     *
-     * @return
+     * @return object stored in {@code APPLICATION_CONTEXT}
      */
     public static ServletContext getApplicationContext() {
         return APPLICATION_CONTEXT.get();
     }
 
     /**
-     *
-     * @param servletContext
+     * Method sets specified {@code servletContext} object into {@code APPLICATION_CONTEXT} thread local variable.
+     * @param servletContext an object to be set
      */
     public static void setApplicationContext(ServletContext servletContext) {
         APPLICATION_CONTEXT.set(servletContext);

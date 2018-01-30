@@ -9,7 +9,7 @@ import java.io.PrintWriter;
 
 public class ErrorHandlerController extends HttpServlet {
 
-    // Переработай класс, да и нужен ли он ? HTML должен быть вынесен в JSP
+    //todo: Если этот класс все-таки нужен HTML должен быть вынесен в JSP
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 

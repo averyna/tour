@@ -1,16 +1,10 @@
 package edu.olya.tour.model;
 
-import java.beans.PropertyEditor;
-import java.beans.PropertyEditorManager;
-import java.lang.reflect.Field;
+import java.io.Serializable;
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.Map;
 
-public class TourView {
+public class TourView implements Serializable {
     private int id;
     private String country;
     private String tourType;
@@ -41,54 +35,6 @@ public class TourView {
         this.hotel = hotel;
         this.mealType = mealType;
         this.price = price;
-    }
-
-    public static TourView parse(Map<String, String[]> searchParameters) {
-        TourView tourView = new TourView();
-
-        for (Map.Entry<String, String[]> param : searchParameters.entrySet()) {
-            String paramName = param.getKey();
-
-            String paramValue = Arrays.toString( param.getValue());
-            paramValue = paramValue.substring(1, paramValue.length() - 1);
-
-            Field field = null;
-            try {
-                //field gets all information about field "paramName"
-                field = TourView.class.getDeclaredField(paramName);
-                //System.out.println(field);
-                //After gerDeclaredField()  field = private java.lang.String main.java.edu.olya.mytour.dao.SearchParam.meal_type
-            } catch (NoSuchFieldException e) {
-                //throw new Exception("Unknown argument name: " + paramName);
-                //System.out.println("Unknown argument name: " + paramName); // for submit button
-                continue;
-            }
-            Class fieldType = field.getType(); //fieldType =  public class java.io.File
-
-            try {
-                PropertyEditor pe = PropertyEditorManager.findEditor(fieldType); //Class fieldType = field.getType()
-                if (pe == null) { //if editor can't be found
-                    //If the specified object argument is an instance of the class or interface
-                    //declaring the underlying field
-                    if (fieldType == Date.class && paramValue.length() > 0) {
-                        //@param obj - the object whose field should be modified
-                        //@param value - the new value for the field
-                        field.set(tourView, new SimpleDateFormat("yyyy-MM-dd").parse(paramValue)); //field == reference to the field
-                    }
-                    if (fieldType == BigDecimal.class && (paramValue.length() > 0)) {
-                        field.set(tourView, new BigDecimal(paramValue));
-                    }
-                    // if there is an editor
-                } else if(paramValue.length() > 0) {
-                    pe.setAsText(paramValue); //Set the property value by parsing a given String
-                    field.set(tourView, pe.getValue());
-                }
-            } catch (NumberFormatException | IllegalAccessException | ParseException e) {
-                //throw new ValidationException("Invalid data type " + paramName + " = " + paramValue + ", but required " + fieldType.getCanonicalName());
-            }
-        }
-
-        return tourView;
     }
 
     public int getId() {
@@ -178,6 +124,46 @@ public class TourView {
     public BigDecimal getPriceTo() { return priceTo; }
 
     public void setPriceTo(BigDecimal priceTo) { this.priceTo = priceTo; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TourView tourView = (TourView) o;
+
+        if (adults != tourView.adults) return false;
+        if (children != tourView.children) return false;
+        if (id != tourView.id) return false;
+        if (nights != tourView.nights) return false;
+        if (country != null ? !country.equals(tourView.country) : tourView.country != null) return false;
+        if (hotel != null ? !hotel.equals(tourView.hotel) : tourView.hotel != null) return false;
+        if (mealType != null ? !mealType.equals(tourView.mealType) : tourView.mealType != null) return false;
+        if (price != null ? !price.equals(tourView.price) : tourView.price != null) return false;
+        if (priceFrom != null ? !priceFrom.equals(tourView.priceFrom) : tourView.priceFrom != null) return false;
+        if (priceTo != null ? !priceTo.equals(tourView.priceTo) : tourView.priceTo != null) return false;
+        if (startDate != null ? !startDate.equals(tourView.startDate) : tourView.startDate != null) return false;
+        if (tourType != null ? !tourType.equals(tourView.tourType) : tourView.tourType != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (country != null ? country.hashCode() : 0);
+        result = 31 * result + (tourType != null ? tourType.hashCode() : 0);
+        result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
+        result = 31 * result + adults;
+        result = 31 * result + children;
+        result = 31 * result + nights;
+        result = 31 * result + (hotel != null ? hotel.hashCode() : 0);
+        result = 31 * result + (mealType != null ? mealType.hashCode() : 0);
+        result = 31 * result + (price != null ? price.hashCode() : 0);
+        result = 31 * result + (priceFrom != null ? priceFrom.hashCode() : 0);
+        result = 31 * result + (priceTo != null ? priceTo.hashCode() : 0);
+        return result;
+    }
 
     @Override
     public String toString() {
